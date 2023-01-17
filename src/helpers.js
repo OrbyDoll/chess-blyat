@@ -1,68 +1,70 @@
-let poleSquare = [
-  { type: "castle", side: "black" },
-  { type: "horse", side: "black" },
-  { type: "bishop", side: "black" },
-  { type: "queen", side: "black" },
-  { type: "king", side: "black" },
-  { type: "bishop", side: "black" },
-  { type: "horse", side: "black" },
-  { type: "castle", side: "black" },
-  { type: "pawn", side: "black" },
-  { type: "pawn", side: "black" },
-  { type: "pawn", side: "black" },
-  { type: "pawn", side: "black" },
-  { type: "pawn", side: "black" },
-  { type: "pawn", side: "black" },
-  { type: "pawn", side: "black" },
-  { type: "pawn", side: "black" },
-  { type: "", side: "" },
-  { type: "", side: "" },
-  { type: "", side: "" },
-  { type: "", side: "" },
-  { type: "", side: "" },
-  { type: "", side: "" },
-  { type: "", side: "" },
-  { type: "", side: "" },
-  { type: "", side: "" },
-  { type: "", side: "" },
-  { type: "", side: "" },
-  { type: "", side: "" },
-  { type: "", side: "" },
-  { type: "", side: "" },
-  { type: "", side: "" },
-  { type: "", side: "" },
-  { type: "", side: "" },
-  { type: "", side: "" },
-  { type: "", side: "" },
-  { type: "", side: "" },
-  { type: "", side: "" },
-  { type: "", side: "" },
-  { type: "", side: "" },
-  { type: "", side: "" },
-  { type: "", side: "" },
-  { type: "", side: "" },
-  { type: "", side: "" },
-  { type: "", side: "" },
-  { type: "", side: "" },
-  { type: "", side: "" },
-  { type: "", side: "" },
-  { type: "", side: "" },
-  { type: "", side: "" },
-  { type: "", side: "" },
-  { type: "", side: "" },
-  { type: "", side: "" },
-  { type: "", side: "" },
-  { type: "", side: "" },
-  { type: "", side: "" },
-  { type: "", side: "" },
-  { type: "", side: "" },
-  { type: "", side: "" },
-  { type: "", side: "" },
-  { type: "", side: "" },
-  { type: "", side: "" },
-  { type: "", side: "" },
-  { type: "", side: "" },
-  { type: "", side: "" },
+export let poleSquare = [
+  { type: "castle", side: "black", active: false },
+  { type: "horse", side: "black", active: false },
+  { type: "bishop", side: "black", active: false },
+  { type: "queen", side: "black", active: false },
+  { type: "king", side: "black", active: false },
+  { type: "bishop", side: "black", active: false },
+  { type: "horse", side: "black", active: false },
+  { type: "castle", side: "black", active: false },
+  { type: "pawn", side: "black", firstMove: true, active: false },
+  { type: "pawn", side: "black", firstMove: true, active: false },
+  { type: "pawn", side: "black", firstMove: true, active: false },
+  { type: "pawn", side: "black", firstMove: true, active: false },
+  { type: "pawn", side: "black", firstMove: true, active: false },
+  { type: "pawn", side: "black", firstMove: true, active: false },
+  { type: "pawn", side: "black", firstMove: true, active: false },
+  { type: "pawn", side: "black", firstMove: true, active: false },
+  { type: "", side: "", active: false },
+  { type: "", side: "", active: false },
+  { type: "", side: "", active: false },
+  { type: "", side: "", active: false },
+  { type: "", side: "", active: false },
+  { type: "", side: "", active: false },
+  { type: "", side: "", active: false },
+  { type: "", side: "", active: false },
+  { type: "", side: "", active: false },
+  { type: "", side: "", active: false },
+  { type: "", side: "", active: false },
+  { type: "", side: "", active: false },
+  { type: "", side: "", active: false },
+  { type: "", side: "", active: false },
+  { type: "", side: "", active: false },
+  { type: "", side: "", active: false },
+  { type: "", side: "", active: false },
+  { type: "", side: "", active: false },
+  { type: "", side: "", active: false },
+  { type: "", side: "", active: false },
+  { type: "", side: "", active: false },
+  { type: "", side: "", active: false },
+  { type: "", side: "", active: false },
+  { type: "", side: "", active: false },
+  { type: "", side: "", active: false },
+  { type: "", side: "", active: false },
+  { type: "", side: "", active: false },
+  { type: "", side: "", active: false },
+  { type: "", side: "", active: false },
+  { type: "", side: "", active: false },
+  { type: "", side: "", active: false },
+  { type: "", side: "", active: false },
+  { type: "", side: "", active: false },
+  { type: "", side: "", active: false },
+  { type: "", side: "", active: false },
+  { type: "", side: "", active: false },
+  { type: "", side: "", active: false },
+  { type: "", side: "", active: false },
+  { type: "", side: "", active: false },
+  { type: "", side: "", active: false },
+  { type: "", side: "", active: false },
+  { type: "", side: "", active: false },
+  { type: "", side: "", active: false },
+  { type: "", side: "", active: false },
+  { type: "", side: "", active: false },
+  { type: "", side: "", active: false },
+  { type: "", side: "", active: false },
+  { type: "", side: "", active: false },
+  { type: "", side: "", active: false },
+  { type: "", side: "", active: false },
 ];
 export function switchType(type) {
   switch (type) {
@@ -80,20 +82,25 @@ export function switchType(type) {
       return "Queen";
   }
 }
-export function canEatFigure(eatable){
-  if (eatable == 'King'){
-    return false
-  } 
-  return true
+export function canEatFigure(eatable) {
+  if (eatable == "King") {
+    return false;
+  }
+  return true;
 }
-export function whereCanGo(mass, index){
-  let thisFigure = mass[index]
-  switch(thisFigure.type){
-    case 'pawn':
-      if(thisFigure.side == 'black'){
-        //Писать
+export function whereCanGo(mass, index) {
+  let thisFigure = mass[index];
+  switch (thisFigure.type) {
+    case "pawn":
+      if (thisFigure.side == "black") {
+        if (mass[index + 8].type == "") {
+          mass[index + 8].active = true;
+          if (mass[index + 16].type == "" && thisFigure.firstMove) {
+            thisFigure.firstMove = false;
+            mass[index + 16].active = true;
+            console.log(mass);
+          }
+        }
       }
   }
 }
-
-export { poleSquare };

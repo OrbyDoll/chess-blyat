@@ -1,6 +1,5 @@
 import "./App.css";
-import poleSquare from "./helpers";
-import switchType from "./helpers";
+import { poleSquare, switchType, whereCanGo } from "./helpers";
 import { useState } from "react";
 
 function App() {
@@ -24,27 +23,37 @@ function App() {
     }
     //Логика Перемещения
     function changeFigurePosition(index) {
+      let newPoleSquares = poleSquares.slice();
       if (firstPositionIndex == -1) {
         setFirstPositionIndex(index);
-        return
+        whereCanGo(newPoleSquares, index);
       }
-      console.log(firstPositionIndex);
       if (firstPositionIndex != -1) {
-        let newPoleSquares = poleSquares.slice();
         if (
-          newPoleSquares[firstPositionIndex].side != newPoleSquares[index].side
+          newPoleSquares[firstPositionIndex].side !=
+            newPoleSquares[index].side &&
+          newPoleSquares[index].active == true
         ) {
           let promType = newPoleSquares[firstPositionIndex];
           newPoleSquares[firstPositionIndex] = newPoleSquares[index];
           newPoleSquares[index] = promType;
-          setPoleSquares(newPoleSquares);
         }
         setFirstPositionIndex(-1);
+        newPoleSquares.forEach((card) => {
+          card.active = false;
+        });
       }
+
+      setPoleSquares(newPoleSquares);
     }
+    // console.log("ререндер");
     return (
       <div
-        className={poleColor + " pole"}
+        className={
+          poleSquares[index].active
+            ? poleColor + " active pole"
+            : poleColor + " pole"
+        }
         onClick={() => changeFigurePosition(index)}
         key={index}
       >
