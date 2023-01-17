@@ -1,6 +1,6 @@
 import "./App.css";
-import poleSquare from "./poleMass";
-import switchType from "./typeSwitch";
+import poleSquare from "./helpers";
+import switchType from "./helpers";
 import { useState } from "react";
 
 function App() {
@@ -24,16 +24,21 @@ function App() {
     }
     //Логика Перемещения
     function changeFigurePosition(index) {
-      // console.log(1);
       if (firstPositionIndex == -1) {
         setFirstPositionIndex(index);
+        return
       }
+      console.log(firstPositionIndex);
       if (firstPositionIndex != -1) {
         let newPoleSquares = poleSquares.slice();
-        let promType = newPoleSquares[firstPositionIndex].type;
-        newPoleSquares[firstPositionIndex].type = newPoleSquares[index].type;
-        newPoleSquares[index].type = promType;
-        setPoleSquares(newPoleSquares);
+        if (
+          newPoleSquares[firstPositionIndex].side != newPoleSquares[index].side
+        ) {
+          let promType = newPoleSquares[firstPositionIndex];
+          newPoleSquares[firstPositionIndex] = newPoleSquares[index];
+          newPoleSquares[index] = promType;
+          setPoleSquares(newPoleSquares);
+        }
         setFirstPositionIndex(-1);
       }
     }
