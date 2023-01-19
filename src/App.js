@@ -11,18 +11,19 @@ function App() {
     let figure = switchType(square.type);
     //Раскрашивание поля
     let poleColor = "white";
-    let flag = false;
+    let setColor = false;
     for (let i = 0; i < 8; i++) {
-      flag = !flag;
+      setColor = !setColor;
       for (let j = 0; j < 8; j++) {
-        if (flag && 8 * i + j == index) {
+        if (setColor && 8 * i + j == index) {
           poleColor = "black";
         }
-        flag = !flag;
+        setColor = !setColor;
       }
     }
     //Логика Перемещения
     function changeFigurePosition(index) {
+      console.log(index);
       let newPoleSquares = poleSquares.slice();
       if (firstPositionIndex == -1) {
         setFirstPositionIndex(index);

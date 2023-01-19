@@ -55,14 +55,14 @@ export let poleSquare = [
   { type: "pawn", side: "white", firstMove: true, active: false },
   { type: "pawn", side: "white", firstMove: true, active: false },
   { type: "pawn", side: "white", firstMove: true, active: false },
-  { type: "castle", side: "white", active: false },
+  { type: "castle", side: "white", firstMove: true, active: false },
   { type: "horse", side: "white", active: false },
   { type: "bishop", side: "white", active: false },
   { type: "queen", side: "white", active: false },
-  { type: "king", side: "white", active: false },
+  { type: "king", side: "white", firstMove: true, active: false },
   { type: "bishop", side: "white", active: false },
   { type: "horse", side: "white", active: false },
-  { type: "castle", side: "white", active: false },
+  { type: "castle", side: "white", firstMove: true, active: false },
 ];
 export function switchType(type) {
   switch (type) {
@@ -100,5 +100,16 @@ export function whereCanGo(mass, index) {
           }
         }
       }
+      break;
+    case "castle":
+      let i = index;
+      while (
+        mass[i + 8].type == "" ||
+        mass[i - 8].type == "" ||
+        (mass[i + 1].type == "" &&
+          Math.floor(i / 8) == Math.floor((i + 1) / 8)) ||
+        (mass[i - 1].type == "" && Math.floor(i / 8) == Math.floor((i - 1) / 8))
+      ) {}
+      break;
   }
 }
