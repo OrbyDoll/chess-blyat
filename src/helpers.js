@@ -90,16 +90,12 @@ export function whereCanGo(mass, index) {
   let thisFigure = mass[index];
   switch (thisFigure.type) {
     case "pawn":
-      console.log(mass.length);
-      console.log(index - 8);
       if (index - 8 > 0) {
         if (mass[index - 8].type == "") {
           mass[index - 8].active = true;
           if (index - 16 > 0) {
             if (mass[index - 16].type == "" && thisFigure.firstMove) {
-              thisFigure.firstMove = false;
               mass[index - 16].active = true;
-              console.log(mass);
             }
           }
         }

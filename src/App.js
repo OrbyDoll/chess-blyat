@@ -35,6 +35,9 @@ function App() {
           newPoleSquares[index].active == true
         ) {
           let promType = newPoleSquares[firstPositionIndex];
+          newPoleSquares[firstPositionIndex].type == "pawn"
+            ? (newPoleSquares[firstPositionIndex].firstMove = false)
+            : (newPoleSquares[firstPositionIndex].firstMove = true);
           newPoleSquares[firstPositionIndex] = newPoleSquares[index];
           newPoleSquares[index] = promType;
         }
