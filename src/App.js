@@ -25,6 +25,7 @@ function App() {
     function changeFigurePosition(index) {
       console.log(index);
       let newPoleSquares = poleSquares.slice();
+      console.log(Math.floor(index / 8) == Math.floor((index + 1) / 8));
       if (firstPositionIndex == -1) {
         setFirstPositionIndex(index);
         whereCanGo(newPoleSquares, index);
@@ -35,6 +36,7 @@ function App() {
             newPoleSquares[index].side &&
           newPoleSquares[index].active == true
         ) {
+          //Перемещение
           let promType = newPoleSquares[firstPositionIndex];
           newPoleSquares[firstPositionIndex].type == "pawn"
             ? (newPoleSquares[firstPositionIndex].firstMove = false)
@@ -67,10 +69,10 @@ function App() {
   });
   return (
     <div className="mainWrap">
-      <div className="roomWrap">
+      {/* <div className="roomWrap">
         <input className="roomKeyInput" placeholder="Room Key"></input>
         <button className="roomKeySubmit">Submit</button>
-      </div>
+      </div> */}
       <div className="poleWrap">{field}</div>
     </div>
   );

@@ -52,6 +52,9 @@
   font-weight: 900;
   src: url(https://fonts.gstatic.com/s/poppins/v20/pxiByp8kv8JHgFVrLBT5Z1xlEA.ttf) format('truetype');
 }
+body {
+  background-color: #222327;
+}
 * {
   margin: 0;
   padding: 0;
@@ -89,6 +92,9 @@
 .black {
   background-color: black;
   color: white;
+}
+.white {
+  background-color: #e1d3d3;
 }
 .active::after {
   content: '';
