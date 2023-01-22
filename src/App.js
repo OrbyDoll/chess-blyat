@@ -1,7 +1,8 @@
 import "./App.css";
 import { poleSquare, switchType, whereCanGo } from "./helpers";
 import { useState } from "react";
-
+// let allSec = 0
+// allSec += now.getSeconds()
 function App() {
   const [poleSquares, setPoleSquares] = useState(poleSquare);
   const [firstPositionIndex, setFirstPositionIndex] = useState(-1);
@@ -23,9 +24,7 @@ function App() {
     }
     //Логика Перемещения
     function changeFigurePosition(index) {
-      console.log(index);
       let newPoleSquares = poleSquares.slice();
-      console.log(Math.floor(index / 8) == Math.floor((index + 1) / 8));
       if (firstPositionIndex == -1) {
         setFirstPositionIndex(index);
         whereCanGo(newPoleSquares, index);

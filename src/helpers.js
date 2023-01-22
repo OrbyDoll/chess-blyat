@@ -1,3 +1,5 @@
+import { act } from "react-dom/test-utils";
+
 export let poleSquare = [
   { type: "", side: "", active: false },
   { type: "", side: "", active: false },
@@ -149,5 +151,55 @@ export function whereCanGo(mass, index) {
         }
       }
       break;
+    case "horse":
+      let horseCells = [
+        [6, 1],
+        [10, 1],
+        [15, 2],
+        [17, 2],
+      ];
+      for (let i = 0; i < horseCells.length; i++) {
+        if (index + horseCells[i][0] < 65) {
+          if (
+            Math.floor(index / 8) + horseCells[i][1] ==
+              Math.floor((index + horseCells[i][0]) / 8) &&
+            mass[index + horseCells[i][0]].type == ""
+          ) {
+            mass[index + horseCells[i][0]].active = true;
+          }
+        }
+        if (index - horseCells[i][0] < 65) {
+          if (
+            Math.floor(index / 8) - horseCells[i][1] ==
+              Math.floor((index - horseCells[i][0]) / 8) &&
+            mass[index - horseCells[i][0]].type == ""
+          ) {
+            mass[index - horseCells[i][0]].active = true;
+          }
+        }
+      }
+      break;
+    case "bishop":
+      let bishopCells = [
+        [index, -9],
+        [index, -7],
+        [index, 9],
+        [index, 7],
+      ]; // 1 - лв, 2 - пв, 3 - пн, 4 - лн
+      for (let j = 0; j < bishopCells.length; j++) {
+        let cell = bishopCells[j];
+        while (
+          cell[0] + cell[1] <= 64 &&
+          cell[0] + cell[1] >= 0 &&
+          (cell[0] + cell[1]) % 8 != 7
+        ) {
+          if (mass[cell[0] + cell[1]].type == "") {
+            mass[cell[0] + cell[1]].active = true;
+            cell[0] += cell[1];
+          } else {
+            break;
+          }
+        }
+      }
   }
 }
