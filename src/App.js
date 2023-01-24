@@ -24,10 +24,11 @@ function App() {
     }
     //Логика Перемещения
     function changeFigurePosition(index) {
+      console.log(index);
       let newPoleSquares = poleSquares.slice();
       if (firstPositionIndex == -1) {
         setFirstPositionIndex(index);
-        whereCanGo(newPoleSquares, index);
+        whereCanGo(newPoleSquares,newPoleSquares[index].type, index);
       }
       if (firstPositionIndex != -1) {
         if (

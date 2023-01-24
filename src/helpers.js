@@ -88,15 +88,14 @@ export function canEatFigure(eatable) {
   }
   return true;
 }
-export function whereCanGo(mass, index) {
-  let thisFigure = mass[index];
-  switch (thisFigure.type) {
+export function whereCanGo(mass, type, index) {
+  switch (type) {
     case "pawn":
       if (index - 8 >= 0) {
         if (mass[index - 8].type == "") {
           mass[index - 8].active = true;
           if (index - 16 >= 0) {
-            if (mass[index - 16].type == "" && thisFigure.firstMove) {
+            if (mass[index - 16].type == "" && mass[index].firstMove) {
               mass[index - 16].active = true;
             }
           }
@@ -188,12 +187,17 @@ export function whereCanGo(mass, index) {
       ]; // 1 - лв, 2 - пв, 3 - пн, 4 - лн
       for (let j = 0; j < bishopCells.length; j++) {
         let cell = bishopCells[j];
-        while (
-          cell[0] + cell[1] <= 64 &&
-          cell[0] + cell[1] >= 0 &&
-          (cell[0] + cell[1]) % 8 != 7
-        ) {
-          if (mass[cell[0] + cell[1]].type == "") {
+        while (cell[0] + cell[1] <= 64 && cell[0] + cell[1] >= 0) {
+          if (cell[0] % 8 == 0 || cell[0] % 8 == 7) {
+            //Dumat
+          }
+          if (
+            mass[cell[0] + cell[1]].type == "" &&
+            Math.floor((cell[0] + cell[1]) / 8) != Math.floor(cell[0] / 8)
+          ) {
+            // if (cell[0] % 8 == 7 || cell[0] % 8 == 0) {
+            //   cell[1] = 0;
+            // }
             mass[cell[0] + cell[1]].active = true;
             cell[0] += cell[1];
           } else {
@@ -201,5 +205,9 @@ export function whereCanGo(mass, index) {
           }
         }
       }
+      break;
+    case "queen":
+      whereCanGo(mass, "castle", index);
+      whereCanGo(mass, "bishop", index);
   }
 }
