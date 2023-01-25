@@ -188,16 +188,18 @@ export function whereCanGo(mass, type, index) {
       for (let j = 0; j < bishopCells.length; j++) {
         let cell = bishopCells[j];
         while (cell[0] + cell[1] <= 64 && cell[0] + cell[1] >= 0) {
-          if (cell[0] % 8 == 0 || cell[0] % 8 == 7) {
-            //Dumat
+          if (cell[0] % 8 == 0) {
+            bishopCells[0][1] = 0;
+            bishopCells[3][1] = 0;
+          }
+          if (cell[0] % 8 == 7) {
+            bishopCells[1][1] = 0;
+            bishopCells[2][1] = 0;
           }
           if (
             mass[cell[0] + cell[1]].type == "" &&
             Math.floor((cell[0] + cell[1]) / 8) != Math.floor(cell[0] / 8)
           ) {
-            // if (cell[0] % 8 == 7 || cell[0] % 8 == 0) {
-            //   cell[1] = 0;
-            // }
             mass[cell[0] + cell[1]].active = true;
             cell[0] += cell[1];
           } else {
