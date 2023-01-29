@@ -1,5 +1,5 @@
 import "./App.css";
-import { poleSquare, switchType, whereCanGo } from "./helpers";
+import { poleSquare, whereCanGo, getImage } from "./helpers";
 import { useState } from "react";
 // let allSec = 0
 // allSec += now.getSeconds()
@@ -9,7 +9,6 @@ function App() {
   // const [secondPositionIndex, setSecondPositionIndex] = useState(-1);
   let field = poleSquares.map((square, index) => {
     //Определение типа фигуры
-    let figure = switchType(square.type);
     //Раскрашивание поля
     let poleColor = "white";
     let setColor = false;
@@ -28,17 +27,13 @@ function App() {
       let newPoleSquares = poleSquares.slice();
       if (firstPositionIndex == -1) {
         setFirstPositionIndex(index);
-        whereCanGo(newPoleSquares,newPoleSquares[index].type, index);
+        whereCanGo(newPoleSquares, newPoleSquares[index].type, index);
       }
       if (firstPositionIndex != -1) {
-        if (
-          newPoleSquares[firstPositionIndex].side !=
-            newPoleSquares[index].side &&
-          newPoleSquares[index].active == true
-        ) {
+        if (newPoleSquares[firstPositionIndex].side != newPoleSquares[index].side && newPoleSquares[index].active == true) {
           //Перемещение
           let promType = newPoleSquares[firstPositionIndex];
-          newPoleSquares[firstPositionIndex].type == "pawn"
+          newPoleSquares[firstPositionIndex].type == "pawn" || newPoleSquares[firstPositionIndex].type == "castle"
             ? (newPoleSquares[firstPositionIndex].firstMove = false)
             : (newPoleSquares[firstPositionIndex].firstMove = true);
           newPoleSquares[firstPositionIndex] = newPoleSquares[index];
@@ -54,16 +49,8 @@ function App() {
     }
     // console.log("ререндер");
     return (
-      <div
-        className={
-          poleSquares[index].active
-            ? poleColor + " active pole"
-            : poleColor + " pole"
-        }
-        onClick={() => changeFigurePosition(index)}
-        key={index}
-      >
-        {figure}
+      <div className={poleSquares[index].active ? poleColor + " active pole" : poleColor + " pole"} onClick={() => changeFigurePosition(index)} key={index}>
+        {getImage(square.type, square.side)}
       </div>
     );
   });
