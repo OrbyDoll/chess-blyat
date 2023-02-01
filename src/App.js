@@ -11,7 +11,7 @@ function App() {
     //Определение типа фигуры
     //Раскрашивание поля
     let poleColor = "white";
-    let setColor = false;
+    let setColor = true;
     for (let i = 0; i < 8; i++) {
       setColor = !setColor;
       for (let j = 0; j < 8; j++) {

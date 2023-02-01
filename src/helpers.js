@@ -1,22 +1,22 @@
 import { act } from "react-dom/test-utils";
 
 export let poleSquare = [
-  { type: "", side: "", attacked: false, active: false },
-  { type: "", side: "", attacked: false, active: false },
+  { type: "castle", side: "black", attacked: false, firstMove: true, active: false },
+  { type: "horse", side: "black", attacked: false, active: false },
   { type: "bishop", side: "black", attacked: false, active: false },
-  { type: "", side: "", attacked: false, active: false },
-  { type: "", side: "", attacked: false, active: false },
-  { type: "", side: "", attacked: false, active: false },
-  { type: "", side: "", attacked: false, active: false },
-  { type: "", side: "", attacked: false, active: false },
-  { type: "", side: "", attacked: false, active: false },
-  { type: "", side: "", attacked: false, active: false },
-  { type: "", side: "", attacked: false, active: false },
-  { type: "", side: "", attacked: false, active: false },
-  { type: "", side: "", attacked: false, active: false },
-  { type: "", side: "", attacked: false, active: false },
-  { type: "", side: "", attacked: false, active: false },
-  { type: "", side: "", attacked: false, active: false },
+  { type: "queen", side: "black", attacked: false, active: false },
+  { type: "king", side: "black", attacked: false, firstMove: true, active: false },
+  { type: "bishop", side: "black", attacked: false, active: false },
+  { type: "horse", side: "black", attacked: false, active: false },
+  { type: "castle", side: "black", attacked: false, firstMove: true, active: false },
+  { type: "pawn", side: "black", attacked: false, firstMove: true, active: false },
+  { type: "pawn", side: "black", attacked: false, firstMove: true, active: false },
+  { type: "pawn", side: "black", attacked: false, firstMove: true, active: false },
+  { type: "pawn", side: "black", attacked: false, firstMove: true, active: false },
+  { type: "pawn", side: "black", attacked: false, firstMove: true, active: false },
+  { type: "pawn", side: "black", attacked: false, firstMove: true, active: false },
+  { type: "pawn", side: "black", attacked: false, firstMove: true, active: false },
+  { type: "pawn", side: "black", attacked: false, firstMove: true, active: false },
   { type: "", side: "", attacked: false, active: false },
   { type: "", side: "", attacked: false, active: false },
   { type: "", side: "", attacked: false, active: false },
@@ -188,13 +188,54 @@ export function getImage(type, side) {
         );
       }
       return (
-        <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45">
-          <path
-            d="M22.5 9c-2.21 0-4 1.79-4 4 0 .89.29 1.71.78 2.38C17.33 16.5 16 18.59 16 21c0 2.03.94 3.84 2.41 5.03-3 1.06-7.41 5.55-7.41 13.47h23c0-7.92-4.41-12.41-7.41-13.47 1.47-1.19 2.41-3 2.41-5.03 0-2.41-1.33-4.5-3.28-5.62.49-.67.78-1.49.78-2.38 0-2.21-1.79-4-4-4z"
-            stroke="#000"
-            stroke-width="1.5"
-            stroke-linecap="round"
-          />
+        <svg xmlns="http://www.w3.org/2000/svg">
+          <g fill="none" fill-rule="evenodd" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22.5 11.63V6" stroke-linejoin="miter" />
+            <path d="M22.5 25s4.5-7.5 3-10.5c0 0-1-2.5-3-2.5s-3 2.5-3 2.5c-1.5 3 3 10.5 3 10.5" fill="#000" stroke-linecap="butt" stroke-linejoin="miter" />
+            <path d="M11.5 37c5.5 3.5 15.5 3.5 21 0v-7s9-4.5 6-10.5c-4-6.5-13.5-3.5-16 4V27v-3.5c-3.5-7.5-13-10.5-16-4-3 6 5 10 5 10V37z" fill="#000" />
+            <path d="M20 8h5" stroke-linejoin="miter" />
+            <path
+              d="M32 29.5s8.5-4 6.03-9.65C34.15 14 25 18 22.5 24.5l.01 2.1-.01-2.1C20 18 9.906 14 6.997 19.85c-2.497 5.65 4.853 9 4.853 9"
+              stroke="#ececec"
+            />
+            <path d="M11.5 30c5.5-3 15.5-3 21 0m-21 3.5c5.5-3 15.5-3 21 0m-21 3.5c5.5-3 15.5-3 21 0" stroke="#ececec" />
+          </g>
+        </svg>
+      );
+    case "queen":
+      if (side == "white") {
+        return (
+          <svg xmlns="http://www.w3.org/2000/svg">
+            <g fill="#fff" fill-rule="evenodd" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M8 12a2 2 0 1 1-4 0 2 2 0 1 1 4 0zm16.5-4.5a2 2 0 1 1-4 0 2 2 0 1 1 4 0zM41 12a2 2 0 1 1-4 0 2 2 0 1 1 4 0zM16 8.5a2 2 0 1 1-4 0 2 2 0 1 1 4 0zM33 9a2 2 0 1 1-4 0 2 2 0 1 1 4 0z" />
+              <path d="M9 26c8.5-1.5 21-1.5 27 0l2-12-7 11V11l-5.5 13.5-3-15-3 15-5.5-14V25L7 14l2 12z" stroke-linecap="butt" />
+              <path
+                d="M9 26c0 2 1.5 2 2.5 4 1 1.5 1 1 .5 3.5-1.5 1-1.5 2.5-1.5 2.5-1.5 1.5.5 2.5.5 2.5 6.5 1 16.5 1 23 0 0 0 1.5-1 0-2.5 0 0 .5-1.5-1-2.5-.5-2.5-.5-2 .5-3.5 1-2 2.5-2 2.5-4-8.5-1.5-18.5-1.5-27 0z"
+                stroke-linecap="butt"
+              />
+              <path d="M11.5 30c3.5-1 18.5-1 22 0M12 33.5c6-1 15-1 21 0" fill="none" />
+            </g>
+          </svg>
+        );
+      }
+      return (
+        <svg xmlns="http://www.w3.org/2000/svg">
+          <g fill-rule="evenodd" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <g stroke="none">
+              <circle cx="6" cy="12" r="2.75" />
+              <circle cx="14" cy="9" r="2.75" />
+              <circle cx="22.5" cy="8" r="2.75" />
+              <circle cx="31" cy="9" r="2.75" />
+              <circle cx="39" cy="12" r="2.75" />
+            </g>
+            <path d="M9 26c8.5-1.5 21-1.5 27 0l2.5-12.5L31 25l-.3-14.1-5.2 13.6-3-14.5-3 14.5-5.2-13.6L14 25 6.5 13.5 9 26z" stroke-linecap="butt" />
+            <path
+              d="M9 26c0 2 1.5 2 2.5 4 1 1.5 1 1 .5 3.5-1.5 1-1.5 2.5-1.5 2.5-1.5 1.5.5 2.5.5 2.5 6.5 1 16.5 1 23 0 0 0 1.5-1 0-2.5 0 0 .5-1.5-1-2.5-.5-2.5-.5-2 .5-3.5 1-2 2.5-2 2.5-4-8.5-1.5-18.5-1.5-27 0z"
+              stroke-linecap="butt"
+            />
+            <path d="M11 38.5a35 35 1 0 0 23 0" fill="none" stroke-linecap="butt" />
+            <path d="M11 29a35 35 1 0 1 23 0m-21.5 2.5h20m-21 3a35 35 1 0 0 22 0m-23 3a35 35 1 0 0 24 0" fill="none" stroke="#ececec" />
+          </g>
         </svg>
       );
   }
