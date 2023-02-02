@@ -300,20 +300,19 @@ export function whereCanGo(mass, type, index) {
       for (let i = 0; i < castleCells.length; i++) {
         let cell = castleCells[i];
         while (cell[0] >= 0 && cell[0] <= 64) {
-          if (Math.floor(cell[0] / 8) == 0) {
-            castleCells[4][1] = 0;
-          } else if (Math.floor(cell[0] / 8) == 7) {
-            castleCells[3][1] = 0;
-          }
-          if (cell[0] + cell[1] <= 63 && cell[0] + cell[1] >= 0) {
-            if (mass[cell[0] + cell[1]].type == "") {
-              mass[cell[0] + cell[1]].active = true;
-            } else {
-              if (mass[index].side != mass[cell[0] + cell[1]].side) {
+          if (!(cell[0] % 8 == 0 && cell[1] == -1) && !(cell[0] % 8 == 7 && cell[1] == 1)) {
+            if (cell[0] + cell[1] <= 63 && cell[0] + cell[1] >= 0) {
+              if (mass[cell[0] + cell[1]].type == "") {
                 mass[cell[0] + cell[1]].active = true;
+              } else {
+                if (mass[index].side != mass[cell[0] + cell[1]].side && mass[cell[0] + cell[1]].type != "king") {
+                  mass[cell[0] + cell[1]].active = true;
+                }
+                break;
               }
-              break;
             }
+          } else {
+            break;
           }
           cell[0] += cell[1];
         }
@@ -327,14 +326,34 @@ export function whereCanGo(mass, type, index) {
         [17, 2],
       ];
       for (let i = 0; i < horseCells.length; i++) {
-        if (index + horseCells[i][0] < 65) {
-          if (Math.floor(index / 8) + horseCells[i][1] == Math.floor((index + horseCells[i][0]) / 8) && mass[index + horseCells[i][0]].type == "") {
-            mass[index + horseCells[i][0]].active = true;
+        console.log(index + horseCells[i][0] < 65 && index + horseCells[i][0] >= 0);
+        if (index + horseCells[i][0] < 65 && index + horseCells[i][0] >= 0) {
+          if (
+            Math.floor(index / 8) + horseCells[i][1] == Math.floor((index + horseCells[i][0]) / 8) &&
+            mass[index + horseCells[i][0]].side != mass[index].side
+          ) {
+            if (mass[index + horseCells[i][0]].type == "") {
+              mass[index + horseCells[i][0]].active = true;
+            } else {
+              if (mass[index + horseCells[i][0]].type != "king" && mass[index + horseCells[i][0]].side != mass[index].side) {
+                console.log(1);
+                mass[index + horseCells[i][0]].active = true;
+              }
+            }
           }
         }
-        if (index - horseCells[i][0] < 65) {
-          if (Math.floor(index / 8) - horseCells[i][1] == Math.floor((index - horseCells[i][0]) / 8) && mass[index - horseCells[i][0]].type == "") {
-            mass[index - horseCells[i][0]].active = true;
+        if (index - horseCells[i][0] < 65 && index - horseCells[i][0] >= 0) {
+          if (
+            Math.floor(index / 8) - horseCells[i][1] == Math.floor((index - horseCells[i][0]) / 8) &&
+            mass[index - horseCells[i][0]].side != mass[index].side
+          ) {
+            if (mass[index - horseCells[i][0]].type == "") {
+              mass[index - horseCells[i][0]].active = true;
+            } else {
+              if (mass[index - horseCells[i][0]].type != "king" && mass[index - horseCells[i][0]].side != mass[index].side) {
+                mass[index - horseCells[i][0]].active = true;
+              }
+            }
           }
         }
       }

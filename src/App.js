@@ -24,7 +24,8 @@ function App() {
     //Логика Перемещения
     function changeFigurePosition(index) {
       let newPoleSquares = poleSquares.slice();
-      console.log(index);
+      console.log(newPoleSquares[index].type);
+      console.log(newPoleSquares[index].side);
       if (firstPositionIndex == -1) {
         setFirstPositionIndex(index);
         whereCanGo(newPoleSquares, newPoleSquares[index].type, index);
@@ -32,12 +33,12 @@ function App() {
       if (firstPositionIndex != -1) {
         if (newPoleSquares[firstPositionIndex].side != newPoleSquares[index].side && newPoleSquares[index].active == true) {
           //Перемещение
-          let promType = newPoleSquares[firstPositionIndex];
           newPoleSquares[firstPositionIndex].type == "pawn" || newPoleSquares[firstPositionIndex].type == "castle"
             ? (newPoleSquares[firstPositionIndex].firstMove = false)
             : (newPoleSquares[firstPositionIndex].firstMove = true);
-          newPoleSquares[firstPositionIndex] = newPoleSquares[index];
-          newPoleSquares[index] = promType;
+          newPoleSquares[index].type = newPoleSquares[firstPositionIndex].type;
+          newPoleSquares[index].side = newPoleSquares[firstPositionIndex].side;
+          newPoleSquares[firstPositionIndex].type = "";
         }
         setFirstPositionIndex(-1);
         newPoleSquares.forEach((card) => {
