@@ -291,6 +291,22 @@ export function whereCanGo(mass, type, index) {
           i[3] += 1;
         }
       }
+      // let castleCells = [
+      //   [index, 8],
+      //   [index, -8],
+      //   [index, 1],
+      //   [index, -1],
+      // ];
+      // for (let i = 0; i < castleCells.length; i++) {
+      //   let cell = castleCells[i];
+      //   while (cell[0] >= 0 && cell[0] <= 64) {
+      //     if (Math.floor(cell[0] / 8) == 0) {
+      //       castleCells[4][1] = 0;
+      //     } else if (Math.floor(cell[0] / 8) == 7) {
+      //       castleCells[3][1] = 0;
+      //     }
+      //   }
+      // }
       break;
     case "horse":
       let horseCells = [
