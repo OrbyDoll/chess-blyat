@@ -39,6 +39,7 @@ function App() {
           newPoleSquares[index].type = newPoleSquares[firstPositionIndex].type;
           newPoleSquares[index].side = newPoleSquares[firstPositionIndex].side;
           newPoleSquares[firstPositionIndex].type = "";
+          newPoleSquares[firstPositionIndex].side = "";
         }
         setFirstPositionIndex(-1);
         newPoleSquares.forEach((card) => {

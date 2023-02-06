@@ -243,54 +243,31 @@ export function getImage(type, side) {
 export function whereCanGo(mass, type, index) {
   switch (type) {
     case "pawn":
-      if (index - 8 >= 0) {
-        if (mass[index - 8].type == "") {
-          mass[index - 8].active = true;
-          if (index - 16 >= 0) {
-            if (mass[index - 16].type == "" && mass[index].firstMove) {
-              mass[index - 16].active = true;
+      if (mass[index].side == "white") {
+        if (index - 8 >= 0) {
+          if (mass[index - 8].type == "") {
+            mass[index - 8].active = true;
+            if (index - 16 >= 0) {
+              if (mass[index - 16].type == "" && mass[index].firstMove) {
+                mass[index - 16].active = true;
+              }
+            }
+          }
+        }
+      } else {
+        if (index + 8 <= 63) {
+          if (mass[index + 8].type == "") {
+            mass[index + 8].active = true;
+            if (index + 16 <= 63) {
+              if (mass[index + 16].type == "" && mass[index].firstMove) {
+                mass[index + 16].active = true;
+              }
             }
           }
         }
       }
       break;
     case "castle":
-      // let i = [index, index, index, index]; //1 - Вверх, 2 - Вниз, 3 - Влево, 4 - Вправо
-      // while (
-      //   i[0] - 8 >= 0 ||
-      //   i[1] + 8 <= 63 ||
-      //   Math.floor(i[2] / 8) == Math.floor((i[2] - 1) / 8) ||
-      //   (Math.floor(i[3] / 8) == Math.floor((i[3] + 1) / 8) && i[3] + 1 < 64)
-      // ) {
-      //   //Вверх
-      //   if (i[0] - 8 >= 0) {
-      //     mass[i[0] - 8].type == "" ? (mass[i[0] - 8].active = true) : (i[0] = -1);
-      //     i[0] -= 8;
-      //   }
-      //   //Вниз
-      //   if (i[1] + 8 <= 63) {
-      //     mass[i[1] + 8].type == "" ? (mass[i[1] + 8].active = true) : (i[1] = 64);
-      //     i[1] += 8;
-      //   }
-      //   //Влево
-      //   if (i[2] - 1 >= 0) {
-      //     if (Math.floor(i[2] / 8) == Math.floor((i[2] - 1) / 8) && mass[i[2] - 1].type == "") {
-      //       mass[i[2] - 1].active = true;
-      //     } else {
-      //       i[2] = -7;
-      //     }
-      //     i[2] -= 1;
-      //   }
-      //   //Вправо
-      //   if (i[3] + 1 <= 63) {
-      //     if (Math.floor(i[3] / 8) == Math.floor((i[3] + 1) / 8) && mass[i[3] + 1].type == "") {
-      //       mass[i[3] + 1].active = true;
-      //     } else {
-      //       i[3] = 72;
-      //     }
-      //     i[3] += 1;
-      //   }
-      // }
       let castleCells = [
         [index, 8],
         [index, -8],
@@ -326,7 +303,6 @@ export function whereCanGo(mass, type, index) {
         [17, 2],
       ];
       for (let i = 0; i < horseCells.length; i++) {
-        console.log(index + horseCells[i][0] < 65 && index + horseCells[i][0] >= 0);
         if (index + horseCells[i][0] < 65 && index + horseCells[i][0] >= 0) {
           if (
             Math.floor(index / 8) + horseCells[i][1] == Math.floor((index + horseCells[i][0]) / 8) &&
@@ -336,7 +312,6 @@ export function whereCanGo(mass, type, index) {
               mass[index + horseCells[i][0]].active = true;
             } else {
               if (mass[index + horseCells[i][0]].type != "king" && mass[index + horseCells[i][0]].side != mass[index].side) {
-                console.log(1);
                 mass[index + horseCells[i][0]].active = true;
               }
             }
@@ -367,7 +342,8 @@ export function whereCanGo(mass, type, index) {
       ]; // 1 - лв, 2 - пв, 3 - пн, 4 - лн
       for (let j = 0; j < bishopCells.length; j++) {
         let cell = bishopCells[j];
-        while (cell[0] + cell[1] <= 64 && cell[0] + cell[1] >= 0) {
+        let figureColor = mass[cell[0]].side;
+        while (cell[0] + cell[1] <= 63 && cell[0] + cell[1] >= 0) {
           if (mass[cell[0] + cell[1]].type == "") {
             if (Math.floor((cell[0] + cell[1]) / 8) == Math.floor(cell[0] / 8) + 1 || Math.floor((cell[0] + cell[1]) / 8) == Math.floor(cell[0] / 8) - 1) {
               mass[cell[0] + cell[1]].active = true;
@@ -375,6 +351,13 @@ export function whereCanGo(mass, type, index) {
               break;
             }
           } else {
+            if (
+              mass[cell[0] + cell[1]].side != figureColor &&
+              (Math.floor((cell[0] + cell[1]) / 8) == Math.floor(cell[0] / 8) + 1 || Math.floor((cell[0] + cell[1]) / 8) == Math.floor(cell[0] / 8) - 1)
+            ) {
+              mass[cell[0] + cell[1]].active = true;
+              console.log(1);
+            }
             break;
           }
           cell[0] += cell[1];
