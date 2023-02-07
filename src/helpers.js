@@ -254,6 +254,26 @@ export function whereCanGo(mass, type, index) {
             }
           }
         }
+        if (index - 9 >= 0) {
+          if (
+            mass[index - 9].type != "" &&
+            mass[index - 9].type != "king" &&
+            mass[index - 9].side != mass[index].side &&
+            Math.floor((index - 9) / 8) == Math.floor(index / 8) - 1
+          ) {
+            mass[index - 9].active = true;
+          }
+        }
+        if (index - 7 >= 0) {
+          if (
+            mass[index - 7].type != "" &&
+            mass[index - 7].type != "king" &&
+            mass[index - 7].side != mass[index].side &&
+            Math.floor((index - 7) / 8) == Math.floor(index / 8) - 1
+          ) {
+            mass[index - 7].active = true;
+          }
+        }
       } else {
         if (index + 8 <= 63) {
           if (mass[index + 8].type == "") {
@@ -263,6 +283,26 @@ export function whereCanGo(mass, type, index) {
                 mass[index + 16].active = true;
               }
             }
+          }
+        }
+        if (index + 9 >= 0) {
+          if (
+            mass[index + 9].type != "" &&
+            mass[index + 9].type != "king" &&
+            mass[index + 9].side != mass[index].side &&
+            Math.floor((index + 9) / 8) == Math.floor(index / 8) + 1
+          ) {
+            mass[index + 9].active = true;
+          }
+        }
+        if (index + 7 >= 0) {
+          if (
+            mass[index + 7].type != "" &&
+            mass[index + 7].type != "king" &&
+            mass[index + 7].side != mass[index].side &&
+            Math.floor((index + 7) / 8) == Math.floor(index / 8) + 1
+          ) {
+            mass[index + 7].active = true;
           }
         }
       }
