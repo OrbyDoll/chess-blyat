@@ -1,5 +1,6 @@
 import "./App.css";
-import { poleSquare, whereCanGo, getImage } from "./helpers";
+import { poleSquare, whereCanGo } from "./helpers";
+import { getImage } from "./getImage";
 import { useState } from "react";
 // let allSec = 0
 // allSec += now.getSeconds()
@@ -24,8 +25,7 @@ function App() {
     //Логика Перемещения
     function changeFigurePosition(index) {
       let newPoleSquares = poleSquares.slice();
-      console.log(newPoleSquares[index].type);
-      console.log(newPoleSquares[index].side);
+      console.log(newPoleSquares[index].firstMove);
       if (firstPositionIndex == -1) {
         setFirstPositionIndex(index);
         whereCanGo(newPoleSquares, newPoleSquares[index].type, index);
@@ -33,11 +33,29 @@ function App() {
       if (firstPositionIndex != -1) {
         if (newPoleSquares[firstPositionIndex].side != newPoleSquares[index].side && newPoleSquares[index].active == true) {
           //Перемещение
-          newPoleSquares[firstPositionIndex].type == "pawn" || newPoleSquares[firstPositionIndex].type == "castle"
-            ? (newPoleSquares[firstPositionIndex].firstMove = false)
-            : (newPoleSquares[firstPositionIndex].firstMove = true);
+          if (newPoleSquares[firstPositionIndex].type == "pawn") {
+            if (newPoleSquares[firstPositionIndex].firstMove == true) {
+              newPoleSquares[firstPositionIndex].firstMove = "previous";
+            } else if (newPoleSquares[firstPositionIndex].firstMove == "previous") {
+              newPoleSquares[firstPositionIndex].firstMove = false;
+            }
+          }
+
           newPoleSquares[index].type = newPoleSquares[firstPositionIndex].type;
+          newPoleSquares[index].firstMove = newPoleSquares[firstPositionIndex].firstMove;
           newPoleSquares[index].side = newPoleSquares[firstPositionIndex].side;
+          if (index - 8 >= 0) {
+            if (newPoleSquares[index - 8].attacked == "del") {
+              newPoleSquares[index - 8].type = "";
+              newPoleSquares[index - 8].side = "";
+            }
+          }
+          if (index + 8 >= 0) {
+            if (newPoleSquares[index + 8].attacked == "del") {
+              newPoleSquares[index + 8].type = "";
+              newPoleSquares[index + 8].side = "";
+            }
+          }
           newPoleSquares[firstPositionIndex].type = "";
           newPoleSquares[firstPositionIndex].side = "";
         }
