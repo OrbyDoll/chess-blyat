@@ -1,5 +1,3 @@
-import { act } from "react-dom/test-utils";
-
 export let poleSquare = [
   { type: "castle", side: "black", attacked: false, firstMove: true, active: false },
   { type: "horse", side: "black", attacked: false, active: false },
@@ -276,7 +274,6 @@ export function whereCanGo(mass, type, index) {
               (Math.floor((cell[0] + cell[1]) / 8) == Math.floor(cell[0] / 8) + 1 || Math.floor((cell[0] + cell[1]) / 8) == Math.floor(cell[0] / 8) - 1)
             ) {
               mass[cell[0] + cell[1]].active = true;
-              console.log(1);
             }
             break;
           }
