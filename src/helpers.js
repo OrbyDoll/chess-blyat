@@ -140,7 +140,7 @@ export function whereCanGo(mass, type, index) {
           }
         }
         //Съедание
-        if (index + 9 >= 0) {
+        if (index + 9 <= 63) {
           if (
             mass[index + 9].type != "" &&
             mass[index + 9].type != "king" &&
@@ -150,7 +150,7 @@ export function whereCanGo(mass, type, index) {
             mass[index + 9].active = true;
           }
         }
-        if (index + 7 >= 0) {
+        if (index + 7 <= 63) {
           if (
             mass[index + 7].type != "" &&
             mass[index + 7].type != "king" &&

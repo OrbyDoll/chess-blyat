@@ -23,8 +23,9 @@ function App() {
         setColor = !setColor;
       }
     }
-    function getChangeFigureWindow(mass, index) {
+    function getChangeFigureWindow(mass, index, firstIndex) {
       let poleS = mass.slice();
+      let squareColor = mass[firstIndex].side == "white" ? "rgb(240, 217, 181)" : "rgb(181,136,99)";
       return (
         <div
           className="figureWindow"
@@ -35,39 +36,47 @@ function App() {
           <div className="figureWindowSelect">
             <div
               className="figureWindowOption"
-              onClick={(poleS, index) => {
+              style={{ backgroundColor: squareColor }}
+              onClick={() => {
                 poleS[index].type = "castle";
+                setWindowFigureChange("");
                 setPoleSquares(poleS);
               }}
             >
-              {getImage("castle", poleS[index].side)}
+              {getImage("castle", poleS[firstIndex].side)}
             </div>
             <div
               className="figureWindowOption"
-              onClick={(poleS, index) => {
+              style={{ backgroundColor: squareColor }}
+              onClick={() => {
                 poleS[index].type = "horse";
+                setWindowFigureChange("");
                 setPoleSquares(poleS);
               }}
             >
-              {getImage("horse", poleS[index].side)}
+              {getImage("horse", poleS[firstIndex].side)}
             </div>
             <div
               className="figureWindowOption"
-              onClick={(poleS, index) => {
+              style={{ backgroundColor: squareColor }}
+              onClick={() => {
                 poleS[index].type = "bishop";
+                setWindowFigureChange("");
                 setPoleSquares(poleS);
               }}
             >
-              {getImage("bishop", poleS[index].side)}
+              {getImage("bishop", poleS[firstIndex].side)}
             </div>
             <div
               className="figureWindowOption"
-              onClick={(poleS, index) => {
+              style={{ backgroundColor: squareColor }}
+              onClick={() => {
                 poleS[index].type = "queen";
+                setWindowFigureChange("");
                 setPoleSquares(poleS);
               }}
             >
-              {getImage("queen", poleS[index].side)}
+              {getImage("queen", poleS[firstIndex].side)}
             </div>
           </div>
         </div>
@@ -89,8 +98,13 @@ function App() {
             [7, "black"],
           ];
           changePoles.forEach((squares) => {
-            if (Math.floor(index / 8) == squares[0] && newPoleSquares[firstPositionIndex].side == squares[1]) {
-              setWindowFigureChange(getChangeFigureWindow(poleSquare, index));
+            if (
+              Math.floor(index / 8) == squares[0] &&
+              newPoleSquares[firstPositionIndex].side == squares[1] &&
+              newPoleSquares[firstPositionIndex].type == "pawn"
+            ) {
+              setWindowFigureChange(getChangeFigureWindow(poleSquares, index, firstPositionIndex));
+              console.log(newPoleSquares[firstPositionIndex].type);
             }
           });
           if (newPoleSquares[firstPositionIndex].type == "pawn") {
