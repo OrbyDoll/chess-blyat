@@ -7,7 +7,7 @@ import { useState } from "react";
 function App() {
   const [poleSquares, setPoleSquares] = useState(poleSquare);
   const [firstPositionIndex, setFirstPositionIndex] = useState(-1);
-  const [windowFigureChange, setWindowFigureChange] = useState("");
+  const [layoutWindowChange, setLayoutWindowChange] = useState("");
   // const [secondPositionIndex, setSecondPositionIndex] = useState(-1);
   let field = poleSquares.map((square, index) => {
     //Определение типа фигуры
@@ -23,7 +23,7 @@ function App() {
         setColor = !setColor;
       }
     }
-    function getChangeFigureWindow(mass, index, firstIndex) {
+    function renderChangeWindow(mass, index, firstIndex) {
       let poleS = mass.slice();
       let squareColor = mass[firstIndex].side == "white" ? "rgb(240, 217, 181)" : "rgb(181,136,99)";
       return (
@@ -39,7 +39,7 @@ function App() {
               style={{ backgroundColor: squareColor }}
               onClick={() => {
                 poleS[index].type = "castle";
-                setWindowFigureChange("");
+                setLayoutWindowChange("");
                 setPoleSquares(poleS);
               }}
             >
@@ -50,7 +50,7 @@ function App() {
               style={{ backgroundColor: squareColor }}
               onClick={() => {
                 poleS[index].type = "horse";
-                setWindowFigureChange("");
+                setLayoutWindowChange("");
                 setPoleSquares(poleS);
               }}
             >
@@ -61,7 +61,7 @@ function App() {
               style={{ backgroundColor: squareColor }}
               onClick={() => {
                 poleS[index].type = "bishop";
-                setWindowFigureChange("");
+                setLayoutWindowChange("");
                 setPoleSquares(poleS);
               }}
             >
@@ -72,7 +72,7 @@ function App() {
               style={{ backgroundColor: squareColor }}
               onClick={() => {
                 poleS[index].type = "queen";
-                setWindowFigureChange("");
+                setLayoutWindowChange("");
                 setPoleSquares(poleS);
               }}
             >
@@ -87,7 +87,7 @@ function App() {
       let newPoleSquares = poleSquares.slice();
       if (firstPositionIndex == -1) {
         setFirstPositionIndex(index);
-        whereCanGo(newPoleSquares, newPoleSquares[index].type, index);
+        whereCanGo(newPoleSquares, newPoleSquares[index].type, index, true);
         return;
       }
       if (firstPositionIndex != -1) {
@@ -103,8 +103,7 @@ function App() {
               newPoleSquares[firstPositionIndex].side == squares[1] &&
               newPoleSquares[firstPositionIndex].type == "pawn"
             ) {
-              setWindowFigureChange(getChangeFigureWindow(poleSquares, index, firstPositionIndex));
-              console.log(newPoleSquares[firstPositionIndex].type);
+              setLayoutWindowChange(renderChangeWindow(poleSquares, index, firstPositionIndex));
             }
           });
           if (newPoleSquares[firstPositionIndex].type == "pawn") {
@@ -149,7 +148,7 @@ function App() {
   });
   return (
     <div className={"mainWrap"}>
-      {windowFigureChange}
+      {layoutWindowChange}
       {/* <div className="roomWrap">
         <input className="roomKeyInput" placeholder="Room Key"></input>
         <button className="roomKeySubmit">Submit</button>
