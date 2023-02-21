@@ -92,24 +92,21 @@ export function whereCanGo(mass, figureType, index, squareType) {
             }
           }
         }
-      } else {
-        if (firstCellIndex >= 0 && firstCellIndex <= 63) {
-          if (mass[firstCellIndex].type == "") {
-            mass[firstCellIndex].active = squareType;
-          }
-        }
       }
       //Съедание
       for (let i = 0; i < pawnEatingCells.length; i++) {
         let eatingCellIndex = index + pawnEatingCells[i] * pawnSide;
         if (eatingCellIndex <= 63 && eatingCellIndex >= 0) {
           if (
-            mass[eatingCellIndex].type != "" &&
             mass[eatingCellIndex].type != "king" &&
             mass[eatingCellIndex].side != mass[index].side &&
             Math.floor(eatingCellIndex / 8) == Math.floor(index / 8) + 1 * pawnSide
           ) {
-            mass[eatingCellIndex].active = squareType;
+            if (mass[eatingCellIndex].type != "") {
+              mass[eatingCellIndex].active = true;
+            } else if (squareType == "attacked") {
+              mass[eatingCellIndex].active = squareType;
+            }
           }
         }
       }
