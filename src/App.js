@@ -2,13 +2,10 @@ import "./App.css";
 import { poleSquare, whereCanGo } from "./helpers";
 import { getImage } from "./getImage";
 import { useState } from "react";
-// let allSec = 0
-// allSec += now.getSeconds()
 function App() {
   const [poleSquares, setPoleSquares] = useState(poleSquare);
   const [firstPositionIndex, setFirstPositionIndex] = useState(-1);
   const [layoutWindowChange, setLayoutWindowChange] = useState("");
-  // const [secondPositionIndex, setSecondPositionIndex] = useState(-1);
   let field = poleSquares.map((square, index) => {
     //Определение типа фигуры
     //Раскрашивание поля
@@ -141,7 +138,16 @@ function App() {
     }
     // console.log("ререндер");
     return (
-      <div className={poleSquares[index].active ? poleColor + " active pole" : poleColor + " pole"} onClick={() => changeFigurePosition(index)} key={index}>
+      <div
+        className={poleSquares[index].active == "attacked" ? poleColor + " attacked pole" : poleColor + " pole"}
+        onClick={() => {
+          console.log(square.active);
+          if (square.type != "" || square.active == true) {
+            changeFigurePosition(index);
+          }
+        }}
+        key={index}
+      >
         {getImage(square.type, square.side)}
       </div>
     );

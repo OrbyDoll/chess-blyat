@@ -65,8 +65,10 @@ export let poleSquare = [
   { type: "horse", side: "white", attacked: false, active: false },
   { type: "castle", side: "white", attacked: false, firstMove: true, active: false },
 ];
+
 //Перемещение фигур
 export function whereCanGo(mass, figureType, index, squareType) {
+  console.log(squareType);
   switch (figureType) {
     case "pawn":
       //Определение цвета, множителя
@@ -79,13 +81,21 @@ export function whereCanGo(mass, figureType, index, squareType) {
       //Передвижение
       let firstCellIndex = index + 8 * pawnSide;
       let secondCellIndex = index + 16 * pawnSide;
-      if (firstCellIndex >= 0 && firstCellIndex <= 63) {
-        if (mass[firstCellIndex].type == "") {
-          mass[firstCellIndex].active = squareType;
-          if (secondCellIndex >= 0 && secondCellIndex <= 63) {
-            if (mass[secondCellIndex].type == "" && mass[index].firstMove == true) {
-              mass[secondCellIndex].active = squareType;
+      if (squareType == true) {
+        if (firstCellIndex >= 0 && firstCellIndex <= 63) {
+          if (mass[firstCellIndex].type == "") {
+            mass[firstCellIndex].active = squareType;
+            if (secondCellIndex >= 0 && secondCellIndex <= 63) {
+              if (mass[secondCellIndex].type == "" && mass[index].firstMove == true) {
+                mass[secondCellIndex].active = squareType;
+              }
             }
+          }
+        }
+      } else {
+        if (firstCellIndex >= 0 && firstCellIndex <= 63) {
+          if (mass[firstCellIndex].type == "") {
+            mass[firstCellIndex].active = squareType;
           }
         }
       }
@@ -213,10 +223,18 @@ export function whereCanGo(mass, figureType, index, squareType) {
       }
       break;
     case "queen":
-      whereCanGo(mass, "castle", index, true);
-      whereCanGo(mass, "bishop", index, true);
+      whereCanGo(mass, "castle", index, squareType);
+      whereCanGo(mass, "bishop", index, squareType);
       break;
     case "king":
+      if (squareType == true) {
+        mass.forEach((sqr, sqrIndex) => {
+          if (sqr.side != mass[index].side) {
+            console.log(1);
+            whereCanGo(mass, mass[sqrIndex].type, sqrIndex, "attacked");
+          }
+        });
+      }
       const kingCells = [
         [-8, -1],
         [-7, -1],
@@ -230,20 +248,18 @@ export function whereCanGo(mass, figureType, index, squareType) {
       for (let p = 0; p < kingCells.length; p++) {
         const kingActualIndex = kingCells[p][0];
         const kingActualRowIndex = kingCells[p][1];
-        console.log(
-          index + kingActualIndex >= 0 &&
-            index + kingActualIndex <= 63 &&
-            Math.floor(index / 8) + kingActualRowIndex == Math.floor((index + kingActualIndex) / 8)
-        );
         if (
           index + kingActualIndex >= 0 &&
           index + kingActualIndex <= 63 &&
           Math.floor(index / 8) + kingActualRowIndex == Math.floor((index + kingActualIndex) / 8)
         ) {
-          if (mass[index + kingActualIndex].type == "") {
-            mass[index + kingActualIndex].active = true;
-          } else if (mass[index + kingActualIndex].side != mass[index].side && mass[index + kingActualIndex].type != "king") {
-            mass[index + kingActualIndex].active = true;
+          let squareTypeCondition = squareType == "attacked" ? true : mass[index + kingActualIndex].active != "attacked";
+          if (squareTypeCondition) {
+            if (mass[index + kingActualIndex].type == "") {
+              mass[index + kingActualIndex].active = squareType;
+            } else if (mass[index + kingActualIndex].side != mass[index].side && mass[index + kingActualIndex].type != "king") {
+              mass[index + kingActualIndex].active = squareType;
+            }
           }
         }
       }
