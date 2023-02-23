@@ -68,7 +68,6 @@ export let poleSquare = [
 
 //Перемещение фигур
 export function whereCanGo(mass, figureType, index, squareType) {
-  console.log(squareType);
   switch (figureType) {
     case "pawn":
       //Определение цвета, множителя
@@ -102,9 +101,7 @@ export function whereCanGo(mass, figureType, index, squareType) {
             mass[eatingCellIndex].side != mass[index].side &&
             Math.floor(eatingCellIndex / 8) == Math.floor(index / 8) + 1 * pawnSide
           ) {
-            if (mass[eatingCellIndex].type != "") {
-              mass[eatingCellIndex].active = true;
-            } else if (squareType == "attacked") {
+            if (mass[eatingCellIndex].type != "" || squareType == "attacked") {
               mass[eatingCellIndex].active = squareType;
             }
           }
@@ -227,7 +224,6 @@ export function whereCanGo(mass, figureType, index, squareType) {
       if (squareType == true) {
         mass.forEach((sqr, sqrIndex) => {
           if (sqr.side != mass[index].side) {
-            console.log(1);
             whereCanGo(mass, mass[sqrIndex].type, sqrIndex, "attacked");
           }
         });

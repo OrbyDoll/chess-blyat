@@ -82,6 +82,8 @@ function App() {
     //Логика Перемещения
     function changeFigurePosition(index) {
       let newPoleSquares = poleSquares.slice();
+      console.log(newPoleSquares[index].type, "type");
+      console.log(newPoleSquares[index].side, "side");
       if (firstPositionIndex == -1) {
         setFirstPositionIndex(index);
         whereCanGo(newPoleSquares, newPoleSquares[index].type, index, true);
@@ -139,7 +141,7 @@ function App() {
     // console.log("ререндер");
     return (
       <div
-        className={poleSquares[index].active == "attacked" ? poleColor + " attacked pole" : poleColor + " pole"}
+        className={poleSquares[index].active == true ? poleColor + " active pole" : poleColor + " pole"}
         onClick={() => {
           console.log(square.active);
           if (square.type != "" || square.active == true) {
