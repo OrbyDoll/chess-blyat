@@ -96,13 +96,15 @@ export function whereCanGo(mass, figureType, index, squareType) {
       for (let i = 0; i < pawnEatingCells.length; i++) {
         let eatingCellIndex = index + pawnEatingCells[i] * pawnSide;
         if (eatingCellIndex <= 63 && eatingCellIndex >= 0) {
-          if (
-            mass[eatingCellIndex].type != "king" &&
-            mass[eatingCellIndex].side != mass[index].side &&
-            Math.floor(eatingCellIndex / 8) == Math.floor(index / 8) + 1 * pawnSide
-          ) {
-            if (mass[eatingCellIndex].type != "" || squareType == "attacked") {
-              mass[eatingCellIndex].active = squareType;
+          if (mass[eatingCellIndex].type != "king" && Math.floor(eatingCellIndex / 8) == Math.floor(index / 8) + 1 * pawnSide) {
+            if (mass[eatingCellIndex].side != mass[index].side) {
+              if (mass[eatingCellIndex].type != "") {
+                mass[eatingCellIndex].active = squareType;
+              } else {
+                mass[eatingCellIndex].active = "attacked";
+              }
+            } else {
+              mass[eatingCellIndex].active = "attacked";
             }
           }
         }
@@ -144,6 +146,8 @@ export function whereCanGo(mass, figureType, index, squareType) {
                   mass[castleActualIndex + castleActualIndexChange].type != "king"
                 ) {
                   mass[castleActualIndex + castleActualIndexChange].active = squareType;
+                } else if (squareType == "attacked") {
+                  mass[castleActualIndex + castleActualIndexChange].active = squareType;
                 }
                 break;
               }
@@ -167,13 +171,15 @@ export function whereCanGo(mass, figureType, index, squareType) {
           let horseCellIndex = index + horseCells[i][0] * mnozhitel;
           let horseCellRowIndex = horseCells[i][1] * mnozhitel;
           if (horseCellIndex <= 63 && horseCellIndex >= 0) {
-            if (Math.floor(index / 8) + horseCellRowIndex == Math.floor(horseCellIndex / 8) && mass[horseCellIndex].side != mass[index].side) {
+            if (Math.floor(index / 8) + horseCellRowIndex == Math.floor(horseCellIndex / 8)) {
               if (mass[horseCellIndex].type == "" && mass[horseCellIndex].type != "king") {
                 mass[horseCellIndex].active = squareType;
+              } else if (mass[horseCellIndex].type != "king" && mass[horseCellIndex].side != mass[index].side) {
+                console.log(1);
+                mass[horseCellIndex].active = squareType;
               } else {
-                if (mass[horseCellIndex].type != "king" && mass[horseCellIndex].side != mass[index].side) {
-                  mass[horseCellIndex].active = squareType;
-                }
+                console.log(3);
+                mass[horseCellIndex].active = "attacked";
               }
             }
           }
