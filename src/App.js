@@ -2,6 +2,7 @@ import "./App.css";
 import { poleSquare, whereCanGo } from "./helpers";
 import { getImage } from "./getImage";
 import { useState } from "react";
+import { logDOM } from "@testing-library/react";
 function App() {
   const [poleSquares, setPoleSquares] = useState(poleSquare);
   const [firstPositionIndex, setFirstPositionIndex] = useState(-1);
@@ -82,7 +83,6 @@ function App() {
     //Логика Перемещения
     function changeFigurePosition(index) {
       let newPoleSquares = poleSquares.slice();
-      console.log(newPoleSquares[index].active);
       if (firstPositionIndex == -1) {
         setFirstPositionIndex(index);
         whereCanGo(newPoleSquares, newPoleSquares[index].type, index, true);
@@ -133,6 +133,9 @@ function App() {
         setFirstPositionIndex(-1);
         newPoleSquares.forEach((card) => {
           card.active = false;
+          if (card.type != "") {
+            whereCanGo(newPoleSquares, card.type, index, "shah");
+          }
         });
       }
       setPoleSquares(newPoleSquares);
