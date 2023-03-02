@@ -99,17 +99,13 @@ export function whereCanGo(mass, figureType, index, functionType) {
         if (eatingCellIndex <= 63 && eatingCellIndex >= 0) {
           if (Math.floor(eatingCellIndex / 8) == Math.floor(index / 8) + 1 * pawnSide) {
             if (mass[eatingCellIndex].type != "king") {
-              if (mass[eatingCellIndex].side != mass[index].side) {
-                if (mass[eatingCellIndex].type != "") {
-                  mass[eatingCellIndex].active = squareType;
-                } else {
-                  mass[eatingCellIndex].active = "attacked";
-                }
+              if (mass[eatingCellIndex].side != mass[index].side && mass[eatingCellIndex].type != "") {
+                mass[eatingCellIndex].active = squareType;
               } else {
                 mass[eatingCellIndex].active = "attacked";
               }
             } else if (mass[eatingCellIndex].type == "king" && functionType == "shah" && mass[eatingCellIndex].side != mass[index].side) {
-              console.log(1, "pawn");
+              console.log(1, "pawn", index);
             }
           }
         }
@@ -236,7 +232,7 @@ export function whereCanGo(mass, figureType, index, functionType) {
                 functionType == "shah" &&
                 mass[actualIndex + actualIndexChange].side != mass[index].side
               ) {
-                console.log(1, "bishop");
+                console.log(1, "bishop", mass[index].side);
               }
             }
             break;

@@ -131,10 +131,10 @@ function App() {
           newPoleSquares[firstPositionIndex].side = "";
         }
         setFirstPositionIndex(-1);
-        newPoleSquares.forEach((card) => {
+        newPoleSquares.forEach((card, cardIndex) => {
           card.active = false;
           if (card.type != "") {
-            whereCanGo(newPoleSquares, card.type, index, "shah");
+            // whereCanGo(newPoleSquares, card.type, cardIndex, "shah");
           }
         });
       }
@@ -145,6 +145,7 @@ function App() {
       <div
         className={poleSquares[index].active == true ? poleColor + " active pole" : poleColor + " pole"}
         onClick={() => {
+          console.log(square.active);
           if (square.type != "" || square.active == true) {
             changeFigurePosition(index);
           }
