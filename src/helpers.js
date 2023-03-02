@@ -211,38 +211,43 @@ export function whereCanGo(mass, figureType, index, functionType) {
         let actualIndex = b_cells[j][0];
         let actualIndexChange = b_cells[j][1];
         const figureColor = mass[actualIndex].side;
+        let checkBehingKing = false
         while (actualIndex + actualIndexChange <= 63 && actualIndex + actualIndexChange >= 0) {
-          if (mass[actualIndex + actualIndexChange].type == "") {
-            if (
-              Math.floor((actualIndex + actualIndexChange) / 8) == Math.floor(actualIndex / 8) + 1 ||
-              Math.floor((actualIndex + actualIndexChange) / 8) == Math.floor(actualIndex / 8) - 1
-            ) {
-              mass[actualIndex + actualIndexChange].active = squareType;
-            } else {
-              break;
-            }
-          } else {
-            if (
-              Math.floor((actualIndex + actualIndexChange) / 8) == Math.floor(actualIndex / 8) + 1 ||
-              Math.floor((actualIndex + actualIndexChange) / 8) == Math.floor(actualIndex / 8) - 1
-            ) {
-              if (mass[actualIndex + actualIndexChange].type != "king") {
-                if (mass[actualIndex + actualIndexChange].side != figureColor) {
-                  mass[actualIndex + actualIndexChange].active = squareType;
-                } else if (squareType == "attacked") {
-                  mass[actualIndex + actualIndexChange].active = "attacked";
-                }
+          if (!checkBehingKing) {
+            if (mass[actualIndex + actualIndexChange].type == "") {
+              if (
+                Math.floor((actualIndex + actualIndexChange) / 8) == Math.floor(actualIndex / 8) + 1 ||
+                Math.floor((actualIndex + actualIndexChange) / 8) == Math.floor(actualIndex / 8) - 1
+              ) {
+                mass[actualIndex + actualIndexChange].active = squareType;
               } else {
-                if (
-                  mass[actualIndex + actualIndexChange].type == "king" &&
-                  functionType == "shah" &&
-                  mass[actualIndex + actualIndexChange].side != mass[index].side
-                ) {
-                  console.log(1, "bishop");
+                break;
+              }
+            } else {
+              if (
+                Math.floor((actualIndex + actualIndexChange) / 8) == Math.floor(actualIndex / 8) + 1 ||
+                Math.floor((actualIndex + actualIndexChange) / 8) == Math.floor(actualIndex / 8) - 1
+              ) {
+                if (mass[actualIndex + actualIndexChange].type != "king") {
+                  if (mass[actualIndex + actualIndexChange].side != figureColor) {
+                    mass[actualIndex + actualIndexChange].active = squareType;
+                  } else if (squareType == "attacked") {
+                    mass[actualIndex + actualIndexChange].active = "attacked";
+                  }
+                } else if(mass[actualIndex + actualIndexChange].side != mass[index].side){
+                  checkBehingKing = true
+                  if (
+                    mass[actualIndex + actualIndexChange].type == "king" &&
+                    functionType == "shah" 
+                  ) {
+                    console.log(1, "bishop");
+                  }
                 }
               }
+              break;
             }
-            break;
+          }else{
+            console.log(1,'check');
           }
           actualIndex += actualIndexChange;
         }
