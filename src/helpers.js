@@ -65,7 +65,10 @@ export let poleSquare = [
   { type: "horse", side: "white", attacked: false, active: false },
   { type: "castle", side: "white", attacked: false, firstMove: true, active: false },
 ];
-
+export let adminMode = true;
+window.admin = () => {
+  adminMode = !adminMode;
+};
 //Перемещение фигур
 export function whereCanGo(mass, figureType, index, functionType) {
   const squareType = functionType == "shah" ? false : functionType;
@@ -140,32 +143,44 @@ export function whereCanGo(mass, figureType, index, functionType) {
       for (let i = 0; i < c_cells.length; i++) {
         let actualIndex = c_cells[i][0];
         let actualIndexChange = c_cells[i][1];
+        let checkBehingKing_c = false;
         while (actualIndex >= 0 && actualIndex <= 64) {
-          if (!(actualIndex % 8 == 0 && actualIndexChange == -1) && !(actualIndex % 8 == 7 && actualIndexChange == 1)) {
-            if (actualIndex + actualIndexChange <= 63 && actualIndex + actualIndexChange >= 0) {
-              if (mass[actualIndex + actualIndexChange].type == "") {
-                mass[actualIndex + actualIndexChange].active = squareType;
-              } else {
-                if (mass[index].side != mass[actualIndex + actualIndexChange].side) {
-                  if (mass[actualIndex + actualIndexChange].type != "king") {
-                    mass[actualIndex + actualIndexChange].active = squareType;
-                  } else {
-                    if (
-                      mass[actualIndex + actualIndexChange].type == "king" &&
-                      functionType == "shah" &&
-                      mass[actualIndex + actualIndexChange].side != mass[index].side
-                    ) {
-                      console.log(1, "castle");
-                    }
-                  }
-                } else if (squareType == "attacked") {
+          if (!checkBehingKing_c) {
+            if (!(actualIndex % 8 == 0 && actualIndexChange == -1) && !(actualIndex % 8 == 7 && actualIndexChange == 1)) {
+              if (actualIndex + actualIndexChange <= 63 && actualIndex + actualIndexChange >= 0) {
+                if (mass[actualIndex + actualIndexChange].type == "") {
                   mass[actualIndex + actualIndexChange].active = squareType;
+                } else {
+                  if (mass[index].side != mass[actualIndex + actualIndexChange].side) {
+                    if (mass[actualIndex + actualIndexChange].type != "king") {
+                      mass[actualIndex + actualIndexChange].active = squareType;
+                    } else {
+                      if (mass[actualIndex + actualIndexChange].type == "king" && mass[actualIndex + actualIndexChange].side != mass[index].side) {
+                        checkBehingKing_c = true;
+                        if (functionType == "shah") {
+                          console.log(1, "castle");
+                        }
+                      }
+                    }
+                  } else if (squareType == "attacked") {
+                    mass[actualIndex + actualIndexChange].active = squareType;
+                  }
+                  if (!checkBehingKing_c) {
+                    break;
+                  }
                 }
-                break;
               }
+            } else {
+              break;
             }
           } else {
-            break;
+            if (!(actualIndex % 8 == 0 && actualIndexChange == -1) && !(actualIndex % 8 == 7 && actualIndexChange == 1)) {
+              if (actualIndex + actualIndexChange <= 63 && actualIndex + actualIndexChange >= 0) {
+                if (mass[actualIndex + actualIndexChange].type == "") {
+                  mass[actualIndex + actualIndexChange].active = "attacked";
+                }
+              }
+            }
           }
           actualIndex += actualIndexChange;
         }
@@ -211,9 +226,9 @@ export function whereCanGo(mass, figureType, index, functionType) {
         let actualIndex = b_cells[j][0];
         let actualIndexChange = b_cells[j][1];
         const figureColor = mass[actualIndex].side;
-        let checkBehingKing = false
+        let checkBehingKing_b = false;
         while (actualIndex + actualIndexChange <= 63 && actualIndex + actualIndexChange >= 0) {
-          if (!checkBehingKing) {
+          if (!checkBehingKing_b) {
             if (mass[actualIndex + actualIndexChange].type == "") {
               if (
                 Math.floor((actualIndex + actualIndexChange) / 8) == Math.floor(actualIndex / 8) + 1 ||
@@ -234,20 +249,27 @@ export function whereCanGo(mass, figureType, index, functionType) {
                   } else if (squareType == "attacked") {
                     mass[actualIndex + actualIndexChange].active = "attacked";
                   }
-                } else if(mass[actualIndex + actualIndexChange].side != mass[index].side){
-                  checkBehingKing = true
-                  if (
-                    mass[actualIndex + actualIndexChange].type == "king" &&
-                    functionType == "shah" 
-                  ) {
+                } else if (mass[actualIndex + actualIndexChange].type == "king" && mass[actualIndex + actualIndexChange].side != figureColor) {
+                  checkBehingKing_b = true;
+                  if (functionType == "shah") {
                     console.log(1, "bishop");
                   }
                 }
               }
-              break;
+              if (!checkBehingKing_b) {
+                break;
+              }
             }
-          }else{
-            console.log(1,'check');
+          } else {
+            if (mass[actualIndex + actualIndexChange].type == "") {
+              if (
+                Math.floor((actualIndex + actualIndexChange) / 8) == Math.floor(actualIndex / 8) + 1 ||
+                Math.floor((actualIndex + actualIndexChange) / 8) == Math.floor(actualIndex / 8) - 1
+              ) {
+                console.log("check");
+                mass[actualIndex + actualIndexChange].active = "attacked";
+              }
+            }
           }
           actualIndex += actualIndexChange;
         }
