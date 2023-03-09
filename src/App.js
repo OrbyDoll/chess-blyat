@@ -1,5 +1,5 @@
 import "./App.css";
-import { poleSquare, whereCanGo } from "./helpers";
+import { poleSquare, whereCanGo, adminMode } from "./helpers";
 import { getImage } from "./getImage";
 import { useState } from "react";
 import { logDOM } from "@testing-library/react";
@@ -84,7 +84,7 @@ function App() {
     //Логика Перемещения
     function changeFigurePosition(index) {
       let newPoleSquares = poleSquares.slice();
-      if (firstPositionIndex == -1 && newPoleSquares[index].side == actualSideMove) {
+      if (firstPositionIndex == -1 && (newPoleSquares[index].side == actualSideMove || adminMode)) {
         setActualSideMove(actualSideMove == "white" ? "black" : "white");
         setFirstPositionIndex(index);
         whereCanGo(newPoleSquares, newPoleSquares[index].type, index, true);
@@ -107,9 +107,9 @@ function App() {
             }
           });
           if (newPoleSquares[firstPositionIndex].type == "pawn") {
-            if (newPoleSquares[firstPositionIndex].firstMove == true) {
+            if (newPoleSquares[firstPositionIndex].firstMove == true && Math.abs(index - firstPositionIndex) == 16) {
               newPoleSquares[firstPositionIndex].firstMove = "previous";
-            } else if (newPoleSquares[firstPositionIndex].firstMove == "previous") {
+            } else if (newPoleSquares[firstPositionIndex].firstMove == "previous" || Math.abs(index - firstPositionIndex) == 8) {
               newPoleSquares[firstPositionIndex].firstMove = false;
             }
           }
@@ -147,7 +147,7 @@ function App() {
       <div
         className={poleSquares[index].active == true ? poleColor + " active pole" : poleColor + " pole"}
         onClick={() => {
-          console.log(square.active);
+          // console.log(square.active);
           if (square.type != "" || square.active == true) {
             changeFigurePosition(index);
           }
