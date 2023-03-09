@@ -69,6 +69,10 @@ export let adminMode = true;
 window.admin = () => {
   adminMode = !adminMode;
 };
+function shah(mass, kingIndex) {
+  whereCanGo(mass, "king", kingIndex, true);
+  console.log(mass, kingIndex);
+}
 //Перемещение фигур
 export function whereCanGo(mass, figureType, index, functionType) {
   const squareType = functionType == "shah" ? false : functionType;
@@ -112,7 +116,7 @@ export function whereCanGo(mass, figureType, index, functionType) {
                 mass[eatingCellIndex].active = "attacked";
               }
             } else if (mass[eatingCellIndex].type == "king" && functionType == "shah" && mass[eatingCellIndex].side != mass[index].side) {
-              console.log(1, "pawn");
+              shah(mass, eatingCellIndex);
             }
           }
         }
@@ -158,7 +162,7 @@ export function whereCanGo(mass, figureType, index, functionType) {
                       if (mass[actualIndex + actualIndexChange].type == "king" && mass[actualIndex + actualIndexChange].side != mass[index].side) {
                         checkBehingKing_c = true;
                         if (functionType == "shah") {
-                          console.log(1, "castle");
+                          shah(mass, actualIndex + actualIndexChange);
                         }
                       }
                     }
@@ -205,7 +209,7 @@ export function whereCanGo(mass, figureType, index, functionType) {
                 if (mass[cellIndex].type != "king") {
                   mass[cellIndex].active = squareType;
                 } else if (functionType == "shah" && mass[cellIndex].type == "king" && mass[cellIndex].side != mass[index].side) {
-                  console.log(1, "horse");
+                  shah(mass, cellIndex);
                 }
               } else {
                 mass[cellIndex].active = "attacked";
@@ -252,7 +256,8 @@ export function whereCanGo(mass, figureType, index, functionType) {
                 } else if (mass[actualIndex + actualIndexChange].type == "king" && mass[actualIndex + actualIndexChange].side != figureColor) {
                   checkBehingKing_b = true;
                   if (functionType == "shah") {
-                    console.log(1, "bishop");
+                    shah(mass, actualIndex + actualIndexChange);
+                    console.log(actualIndex + actualIndexChange, "bis");
                   }
                 }
               }
@@ -266,7 +271,6 @@ export function whereCanGo(mass, figureType, index, functionType) {
                 Math.floor((actualIndex + actualIndexChange) / 8) == Math.floor(actualIndex / 8) + 1 ||
                 Math.floor((actualIndex + actualIndexChange) / 8) == Math.floor(actualIndex / 8) - 1
               ) {
-                console.log("check");
                 mass[actualIndex + actualIndexChange].active = "attacked";
               }
             }

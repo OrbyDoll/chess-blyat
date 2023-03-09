@@ -107,9 +107,9 @@ function App() {
             }
           });
           if (newPoleSquares[firstPositionIndex].type == "pawn") {
-            if (newPoleSquares[firstPositionIndex].firstMove == true) {
+            if (newPoleSquares[firstPositionIndex].firstMove == true && Math.abs(index - firstPositionIndex) == 16) {
               newPoleSquares[firstPositionIndex].firstMove = "previous";
-            } else if (newPoleSquares[firstPositionIndex].firstMove == "previous") {
+            } else if (newPoleSquares[firstPositionIndex].firstMove == "previous" || Math.abs(index - firstPositionIndex) == 8) {
               newPoleSquares[firstPositionIndex].firstMove = false;
             }
           }
