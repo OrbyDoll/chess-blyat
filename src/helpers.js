@@ -70,8 +70,7 @@ window.admin = () => {
   adminMode = !adminMode;
 };
 function shah(mass, kingIndex) {
-  whereCanGo(mass, "king", kingIndex, true);
-  console.log(mass, kingIndex);
+  console.log("shah");
 }
 //Перемещение фигур
 export function whereCanGo(mass, figureType, index, functionType) {
@@ -257,7 +256,6 @@ export function whereCanGo(mass, figureType, index, functionType) {
                   checkBehingKing_b = true;
                   if (functionType == "shah") {
                     shah(mass, actualIndex + actualIndexChange);
-                    console.log(actualIndex + actualIndexChange, "bis");
                   }
                 }
               }

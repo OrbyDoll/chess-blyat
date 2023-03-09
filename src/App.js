@@ -1,5 +1,5 @@
 import "./App.css";
-import { poleSquare, whereCanGo, adminMode } from "./helpers";
+import { poleSquare, whereCanGo, adminMode, shahActive } from "./helpers";
 import { getImage } from "./getImage";
 import { useState } from "react";
 import { logDOM } from "@testing-library/react";
@@ -133,6 +133,7 @@ function App() {
           newPoleSquares[firstPositionIndex].side = "";
         }
         setFirstPositionIndex(-1);
+
         newPoleSquares.forEach((card, cardIndex) => {
           card.active = false;
           if (card.type != "" && card.type != "king") {
