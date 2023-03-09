@@ -7,6 +7,7 @@ function App() {
   const [poleSquares, setPoleSquares] = useState(poleSquare);
   const [firstPositionIndex, setFirstPositionIndex] = useState(-1);
   const [layoutWindowChange, setLayoutWindowChange] = useState("");
+  const [actualSideMove, setActualSideMove] = useState("white");
   let field = poleSquares.map((square, index) => {
     //Определение типа фигуры
     //Раскрашивание поля
@@ -83,7 +84,8 @@ function App() {
     //Логика Перемещения
     function changeFigurePosition(index) {
       let newPoleSquares = poleSquares.slice();
-      if (firstPositionIndex == -1) {
+      if (firstPositionIndex == -1 && newPoleSquares[index].side == actualSideMove) {
+        setActualSideMove(actualSideMove == "white" ? "black" : "white");
         setFirstPositionIndex(index);
         whereCanGo(newPoleSquares, newPoleSquares[index].type, index, true);
         return;
@@ -133,8 +135,8 @@ function App() {
         setFirstPositionIndex(-1);
         newPoleSquares.forEach((card, cardIndex) => {
           card.active = false;
-          if (card.type != "") {
-            // whereCanGo(newPoleSquares, card.type, cardIndex, "shah");
+          if (card.type != "" && card.type != "king") {
+            whereCanGo(newPoleSquares, card.type, cardIndex, "shah");
           }
         });
       }
