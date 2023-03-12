@@ -69,12 +69,14 @@ export let adminMode = true;
 window.admin = () => {
   adminMode = !adminMode;
 };
-function shah(mass, kingIndex) {
-  console.log("shah");
+function shah(mass, attackerIndex) {
+  whereCanGo(mass, mass[attackerIndex].type, attackerIndex, "checking");
+  console.log(mass[attackerIndex].type);
 }
 //Перемещение фигур
 export function whereCanGo(mass, figureType, index, functionType) {
-  const squareType = functionType == "shah" ? false : functionType;
+  const squareType = functionType == "shah" || functionType == "checking" ? false : functionType;
+  let attackedCells = [];
   switch (figureType) {
     case "pawn":
       //Определение цвета, множителя
@@ -114,8 +116,12 @@ export function whereCanGo(mass, figureType, index, functionType) {
               } else if (functionType == "attacked") {
                 mass[eatingCellIndex].active = "attacked";
               }
-            } else if (mass[eatingCellIndex].type == "king" && functionType == "shah" && mass[eatingCellIndex].side != mass[index].side) {
-              shah(mass, eatingCellIndex);
+            } else if (mass[eatingCellIndex].type == "king" && mass[eatingCellIndex].side != mass[index].side) {
+              if (functionType == "shah") {
+                shah(mass, index);
+              } else if (functionType == "checking") {
+                attackedCells.push(eatingCellIndex);
+              }
             }
           }
         }
@@ -161,7 +167,7 @@ export function whereCanGo(mass, figureType, index, functionType) {
                       if (mass[actualIndex + actualIndexChange].type == "king" && mass[actualIndex + actualIndexChange].side != mass[index].side) {
                         checkBehingKing_c = true;
                         if (functionType == "shah") {
-                          shah(mass, actualIndex + actualIndexChange);
+                          shah(mass, index);
                         }
                       }
                     }
@@ -208,7 +214,7 @@ export function whereCanGo(mass, figureType, index, functionType) {
                 if (mass[cellIndex].type != "king") {
                   mass[cellIndex].active = squareType;
                 } else if (functionType == "shah" && mass[cellIndex].type == "king" && mass[cellIndex].side != mass[index].side) {
-                  shah(mass, cellIndex);
+                  shah(mass, index);
                 }
               } else {
                 mass[cellIndex].active = "attacked";
@@ -255,7 +261,7 @@ export function whereCanGo(mass, figureType, index, functionType) {
                 } else if (mass[actualIndex + actualIndexChange].type == "king" && mass[actualIndex + actualIndexChange].side != figureColor) {
                   checkBehingKing_b = true;
                   if (functionType == "shah") {
-                    shah(mass, actualIndex + actualIndexChange);
+                    shah(mass, index);
                   }
                 }
               }
