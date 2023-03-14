@@ -69,14 +69,15 @@ export let adminMode = true;
 window.admin = () => {
   adminMode = !adminMode;
 };
+let attackedCells = [];
 function shah(mass, attackerIndex) {
   whereCanGo(mass, mass[attackerIndex].type, attackerIndex, "checking");
-  console.log(mass[attackerIndex].type);
+  console.log(attackedCells, mass[attackerIndex].type);
 }
 //Перемещение фигур
 export function whereCanGo(mass, figureType, index, functionType) {
+  //Добавить kingIndex
   const squareType = functionType == "shah" || functionType == "checking" ? false : functionType;
-  let attackedCells = [];
   switch (figureType) {
     case "pawn":
       //Определение цвета, множителя
@@ -120,7 +121,7 @@ export function whereCanGo(mass, figureType, index, functionType) {
               if (functionType == "shah") {
                 shah(mass, index);
               } else if (functionType == "checking") {
-                attackedCells.push(eatingCellIndex);
+                attackedCells.push(index);
               }
             }
           }
@@ -143,6 +144,9 @@ export function whereCanGo(mass, figureType, index, functionType) {
       }
       break;
     case "castle":
+      if (functionType == "checking") {
+        attackedCells.push(index);
+      }
       let c_cells = [
         [index, 8],
         [index, -8],
@@ -158,7 +162,13 @@ export function whereCanGo(mass, figureType, index, functionType) {
             if (!(actualIndex % 8 == 0 && actualIndexChange == -1) && !(actualIndex % 8 == 7 && actualIndexChange == 1)) {
               if (actualIndex + actualIndexChange <= 63 && actualIndex + actualIndexChange >= 0) {
                 if (mass[actualIndex + actualIndexChange].type == "") {
-                  mass[actualIndex + actualIndexChange].active = squareType;
+                  if (functionType == "checking") {
+                    attackedCells.push(actualIndex + actualIndexChange);
+                  } else {
+                    mass[actualIndex + actualIndexChange].active = squareType;
+                  }
+                } else if (functionType == "checking") {
+                  break;
                 } else {
                   if (mass[index].side != mass[actualIndex + actualIndexChange].side) {
                     if (mass[actualIndex + actualIndexChange].type != "king") {

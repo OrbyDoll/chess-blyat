@@ -148,7 +148,7 @@ function App() {
       <div
         className={poleSquares[index].active == true ? poleColor + " active pole" : poleColor + " pole"}
         onClick={() => {
-          // console.log(square.active);
+          console.log(index);
           if (square.type != "" || square.active == true) {
             changeFigurePosition(index);
           }
