@@ -87,7 +87,7 @@ function App() {
       if (firstPositionIndex == -1 && (newPoleSquares[index].side == actualSideMove || adminMode)) {
         setActualSideMove(actualSideMove == "white" ? "black" : "white");
         setFirstPositionIndex(index);
-        whereCanGo(newPoleSquares, newPoleSquares[index].type, index, true);
+        whereCanGo(newPoleSquares, newPoleSquares[index].type, index, true, 1);
         return;
       }
       if (firstPositionIndex != -1) {
@@ -137,7 +137,7 @@ function App() {
         newPoleSquares.forEach((card, cardIndex) => {
           card.active = false;
           if (card.type != "" && card.type != "king") {
-            whereCanGo(newPoleSquares, card.type, cardIndex, "shah");
+            whereCanGo(newPoleSquares, card.type, cardIndex, "shah", 1);
           }
         });
       }
