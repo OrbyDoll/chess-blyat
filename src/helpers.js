@@ -75,7 +75,7 @@ function shah(mass, attackerIndex, attackedData) {
   console.log(attackedCells, mass[attackerIndex].type);
 }
 //Перемещение фигур
-export function whereCanGo(mass, figureType, index, functionType, kingData) {
+export function whereCanGo(mass, figureType, index, functionType, kingData, shahStatus) {
   if (functionType == "checking" && !attackedCells.includes(index)) {
     attackedCells.push(index);
   }

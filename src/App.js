@@ -8,6 +8,7 @@ function App() {
   const [firstPositionIndex, setFirstPositionIndex] = useState(-1);
   const [layoutWindowChange, setLayoutWindowChange] = useState("");
   const [actualSideMove, setActualSideMove] = useState("white");
+  const [shahStatus, setShahStatus] = useState(false);
   let field = poleSquares.map((square, index) => {
     //Определение типа фигуры
     //Раскрашивание поля
@@ -87,7 +88,7 @@ function App() {
       if (firstPositionIndex == -1 && (newPoleSquares[index].side == actualSideMove || adminMode)) {
         setActualSideMove(actualSideMove == "white" ? "black" : "white");
         setFirstPositionIndex(index);
-        whereCanGo(newPoleSquares, newPoleSquares[index].type, index, true, 1);
+        whereCanGo(newPoleSquares, newPoleSquares[index].type, index, true, 1, { status: shahStatus, change: setShahStatus });
         return;
       }
       if (firstPositionIndex != -1) {
@@ -137,7 +138,7 @@ function App() {
         newPoleSquares.forEach((card, cardIndex) => {
           card.active = false;
           if (card.type != "" && card.type != "king") {
-            whereCanGo(newPoleSquares, card.type, cardIndex, "shah", 1);
+            whereCanGo(newPoleSquares, card.type, cardIndex, "shah", 1,{ status: shahStatus, change: setShahStatus });
           }
         });
       }
