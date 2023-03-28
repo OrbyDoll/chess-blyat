@@ -73,12 +73,12 @@ function shah(mass, attackerIndex, attackedData) {
   whereCanGo(mass, mass[attackerIndex].type, attackerIndex, "checking", attackedData);
 }
 //Перемещение фигур
-export function whereCanGo(mass, figureType, index, functionType, kingData, shahStatus) {
-  // if (functionType == "checking" && !attackedCells.includes(index)) {
-  //   attackedCells.push(index);
-  // }
-  //Добавить kingIndex
+export function whereCanGo(mass, figureType, index, functionType, kingData) {
+  if (functionType == "checking") {
+    mass[index].dangerForKing = true;
+  }
   const squareType = functionType == "shah" || functionType == "checking" ? false : functionType;
+  squareType = functionType == "afterShah" ? true : squareType;
   switch (figureType) {
     case "pawn":
       //Определение цвета, множителя
@@ -122,6 +122,7 @@ export function whereCanGo(mass, figureType, index, functionType, kingData, shah
               if (functionType == "shah") {
                 whereCanGo(mass, mass[index].type, index, "checking", eatingCellIndex);
               } else if (functionType == "checking") {
+                mass[index].dangerForKing = true;
                 // attackedCells.push(index);
               }
             }
@@ -161,6 +162,7 @@ export function whereCanGo(mass, figureType, index, functionType, kingData, shah
               if (actualIndex + actualIndexChange <= 63 && actualIndex + actualIndexChange >= 0) {
                 if (mass[actualIndex + actualIndexChange].type == "") {
                   if (functionType == "checking" && actualIndexChange == kingData.destination) {
+                    mass[actualIndex + actualIndexChange].dangerForKing = true;
                     // attackedCells.push(actualIndex + actualIndexChange);
                   } else {
                     mass[actualIndex + actualIndexChange].active = squareType;
@@ -252,6 +254,7 @@ export function whereCanGo(mass, figureType, index, functionType, kingData, shah
                 Math.floor((actualIndex + actualIndexChange) / 8) == Math.floor(actualIndex / 8) - 1
               ) {
                 if (functionType == "checking" && actualIndexChange == kingData.destination) {
+                  mass[actualIndex + actualIndexChange].dangerForKing = true;
                   // attackedCells.push(actualIndex + actualIndexChange);
                 } else {
                   mass[actualIndex + actualIndexChange].active = squareType;

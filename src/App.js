@@ -8,7 +8,6 @@ function App() {
   const [firstPositionIndex, setFirstPositionIndex] = useState(-1);
   const [layoutWindowChange, setLayoutWindowChange] = useState("");
   const [actualSideMove, setActualSideMove] = useState("white");
-  const [shahStatus, setShahStatus] = useState(false);
   let field = poleSquares.map((square, index) => {
     //Определение типа фигуры
     //Раскрашивание поля
@@ -85,10 +84,17 @@ function App() {
     //Логика Перемещения
     function changeFigurePosition(index) {
       let newPoleSquares = poleSquares.slice();
+      let kingAttacked = true;
+      newPoleSquares.forEach((sqr) => {
+        if (sqr.dangerForKing) {
+          kingAttacked = "afterShah";
+          console.log(1);
+        }
+      });
       if (firstPositionIndex == -1 && (newPoleSquares[index].side == actualSideMove || adminMode)) {
         setActualSideMove(actualSideMove == "white" ? "black" : "white");
         setFirstPositionIndex(index);
-        whereCanGo(newPoleSquares, newPoleSquares[index].type, index, true, 1, { status: shahStatus, change: setShahStatus });
+        whereCanGo(newPoleSquares, newPoleSquares[index].type, index, kingAttacked, 1);
         return;
       }
       if (firstPositionIndex != -1) {
@@ -134,11 +140,14 @@ function App() {
           newPoleSquares[firstPositionIndex].side = "";
         }
         setFirstPositionIndex(-1);
-
         newPoleSquares.forEach((card, cardIndex) => {
           card.active = false;
+          // if (card.dangerForKing) {
+          //   console.log(newPoleSquares, "sqr");
+          //   console.log(cardIndex);
+          // }
           if (card.type != "" && card.type != "king") {
-            whereCanGo(newPoleSquares, card.type, cardIndex, "shah", 1,{ status: shahStatus, change: setShahStatus });
+            whereCanGo(newPoleSquares, card.type, cardIndex, "shah", 1);
           }
         });
       }
@@ -149,7 +158,6 @@ function App() {
       <div
         className={poleSquares[index].active == true ? poleColor + " active pole" : poleColor + " pole"}
         onClick={() => {
-          console.log(index);
           if (square.type != "" || square.active == true) {
             changeFigurePosition(index);
           }
