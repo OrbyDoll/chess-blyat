@@ -1,3 +1,5 @@
+import { logDOM } from "@testing-library/react";
+
 //Массив всех фигур
 export let poleSquare = [
   { type: "castle", side: "black", attacked: false, firstMove: true, active: false, dangerForKing: false },
@@ -77,8 +79,8 @@ export function whereCanGo(mass, figureType, index, functionType, kingData) {
   if (functionType == "checking") {
     mass[index].dangerForKing = true;
   }
-  const squareType = functionType == "shah" || functionType == "checking" ? false : functionType;
-  squareType = functionType == "afterShah" ? true : squareType;
+  const squareTypeBefore = functionType == "shah" || functionType == "checking" ? false : functionType;
+  const squareType = functionType == "afterShah" ? true : squareTypeBefore;
   switch (figureType) {
     case "pawn":
       //Определение цвета, множителя
@@ -94,10 +96,22 @@ export function whereCanGo(mass, figureType, index, functionType, kingData) {
       if (squareType == true) {
         if (firstCellIndex >= 0 && firstCellIndex <= 63) {
           if (mass[firstCellIndex].type == "") {
-            mass[firstCellIndex].active = squareType;
+            if (functionType == "afterShah") {
+              if (mass[firstCellIndex].dangerForKing) {
+                mass[firstCellIndex].active = squareType;
+              }
+            } else {
+              mass[firstCellIndex].active = squareType;
+            }
             if (secondCellIndex >= 0 && secondCellIndex <= 63) {
               if (mass[secondCellIndex].type == "" && mass[index].firstMove == true) {
-                mass[secondCellIndex].active = squareType;
+                if (functionType == "afterShah") {
+                  if (mass[secondCellIndex].dangerForKing) {
+                    mass[secondCellIndex].active = squareType;
+                  }
+                } else {
+                  mass[secondCellIndex].active = squareType;
+                }
               }
             }
           }
@@ -111,7 +125,13 @@ export function whereCanGo(mass, figureType, index, functionType, kingData) {
             if (mass[eatingCellIndex].type != "king") {
               if (mass[eatingCellIndex].side != mass[index].side) {
                 if (mass[eatingCellIndex].type != "") {
-                  mass[eatingCellIndex].active = squareType;
+                  if (functionType == "afterShah") {
+                    if (mass[eatingCellIndex].dangerForKing) {
+                      mass[eatingCellIndex].active = squareType;
+                    }
+                  } else {
+                    mass[eatingCellIndex].active = squareType;
+                  }
                 } else if (functionType == "attacked") {
                   mass[eatingCellIndex].active = "attacked";
                 }
@@ -137,10 +157,12 @@ export function whereCanGo(mass, figureType, index, functionType, kingData) {
             mass[OnMoveCellIndex].type == "pawn" &&
             mass[OnMoveCellIndex].side != mass[index].side &&
             mass[OnMoveCellIndex].firstMove == "previous" &&
+            mass[OnMoveCellIndex + 8 * pawnSide].type == "" &&
             Math.floor(OnMoveCellIndex / 8) == Math.floor(index / 8)
           ) {
             mass[OnMoveCellIndex + 8 * pawnSide].active = squareType;
-            mass[OnMoveCellIndex].attacked = "del";
+            mass[OnMoveCellIndex].attacked = index;
+            console.log(OnMoveCellIndex + 8 * pawnSide, "pawn");
           }
         }
       }

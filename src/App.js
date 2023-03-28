@@ -125,13 +125,13 @@ function App() {
           newPoleSquares[index].firstMove = newPoleSquares[firstPositionIndex].firstMove;
           newPoleSquares[index].side = newPoleSquares[firstPositionIndex].side;
           if (index - 8 >= 0) {
-            if (newPoleSquares[index - 8].attacked == "del") {
+            if (newPoleSquares[index - 8].attacked && firstPositionIndex == newPoleSquares[index - 8].attacked) {
               newPoleSquares[index - 8].type = "";
               newPoleSquares[index - 8].side = "";
             }
           }
           if (index + 8 <= 63) {
-            if (newPoleSquares[index + 8].attacked == "del") {
+            if (newPoleSquares[index + 8].attacked && firstPositionIndex == newPoleSquares[index + 8].attacked) {
               newPoleSquares[index + 8].type = "";
               newPoleSquares[index + 8].side = "";
             }
@@ -158,6 +158,7 @@ function App() {
       <div
         className={poleSquares[index].active == true ? poleColor + " active pole" : poleColor + " pole"}
         onClick={() => {
+          console.log(index);
           if (square.type != "" || square.active == true) {
             changeFigurePosition(index);
           }
