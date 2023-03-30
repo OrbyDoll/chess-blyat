@@ -150,6 +150,7 @@ export function whereCanGo(mass, figureType, index, functionType, kingData) {
         }
       }
       //Съедание на ходу
+      //Не доделано
       for (let j = 0; j < pawnOnMoveCells.length; j++) {
         let OnMoveCellIndex = index + pawnOnMoveCells[j];
         if (OnMoveCellIndex <= 63 && OnMoveCellIndex >= 0) {
@@ -183,18 +184,30 @@ export function whereCanGo(mass, figureType, index, functionType, kingData) {
             if (!(actualIndex % 8 == 0 && actualIndexChange == -1) && !(actualIndex % 8 == 7 && actualIndexChange == 1)) {
               if (actualIndex + actualIndexChange <= 63 && actualIndex + actualIndexChange >= 0) {
                 if (mass[actualIndex + actualIndexChange].type == "") {
-                  if (functionType == "checking" && actualIndexChange == kingData.destination) {
-                    mass[actualIndex + actualIndexChange].dangerForKing = true;
-                    // attackedCells.push(actualIndex + actualIndexChange);
+                  if (functionType == "afterShah") {
+                    if (mass[actualIndex + actualIndexChange].dangerForKing) {
+                      mass[actualIndex + actualIndexChange].active = squareType;
+                    }
                   } else {
-                    mass[actualIndex + actualIndexChange].active = squareType;
+                    if (functionType == "checking" && actualIndexChange == kingData.destination) {
+                      mass[actualIndex + actualIndexChange].dangerForKing = true;
+                      // attackedCells.push(actualIndex + actualIndexChange);
+                    } else {
+                      mass[actualIndex + actualIndexChange].active = squareType;
+                    }
                   }
                 } else if (functionType == "checking") {
                   break;
                 } else {
                   if (mass[index].side != mass[actualIndex + actualIndexChange].side) {
                     if (mass[actualIndex + actualIndexChange].type != "king") {
-                      mass[actualIndex + actualIndexChange].active = squareType;
+                      if (functionType == "afterShah") {
+                        if (mass[actualIndex + actualIndexChange].dangerForKing) {
+                          mass[actualIndex + actualIndexChange].active = squareType;
+                        }
+                      } else {
+                        mass[actualIndex + actualIndexChange].active = squareType;
+                      }
                     } else {
                       if (mass[actualIndex + actualIndexChange].type == "king" && mass[actualIndex + actualIndexChange].side != mass[index].side) {
                         checkBehingKing_c = true;
@@ -241,10 +254,22 @@ export function whereCanGo(mass, figureType, index, functionType, kingData) {
           if (cellIndex <= 63 && cellIndex >= 0) {
             if (Math.floor(index / 8) + cellRowIndex == Math.floor(cellIndex / 8)) {
               if (mass[cellIndex].type == "" && mass[cellIndex].type != "king") {
-                mass[cellIndex].active = squareType;
+                if (functionType == "afterShah") {
+                  if (mass[cellIndex].dangerForKing) {
+                    mass[cellIndex].active = squareType;
+                  }
+                } else {
+                  mass[cellIndex].active = squareType;
+                }
               } else if (mass[cellIndex].side != mass[index].side) {
                 if (mass[cellIndex].type != "king") {
-                  mass[cellIndex].active = squareType;
+                  if (functionType == "afterShah") {
+                    if (mass[cellIndex].dangerForKing) {
+                      mass[cellIndex].active = squareType;
+                    }
+                  } else {
+                    mass[cellIndex].active = squareType;
+                  }
                 } else if (functionType == "shah" && mass[cellIndex].type == "king" && mass[cellIndex].side != mass[index].side) {
                   whereCanGo(mass, mass[index].type, index, "checking", cellIndex);
                 }
@@ -275,7 +300,11 @@ export function whereCanGo(mass, figureType, index, functionType, kingData) {
                 Math.floor((actualIndex + actualIndexChange) / 8) == Math.floor(actualIndex / 8) + 1 ||
                 Math.floor((actualIndex + actualIndexChange) / 8) == Math.floor(actualIndex / 8) - 1
               ) {
-                if (functionType == "checking" && actualIndexChange == kingData.destination) {
+                if (functionType == "afterShah") {
+                  if (mass[actualIndex + actualIndexChange].dangerForKing) {
+                    mass[actualIndex + actualIndexChange].active = squareType;
+                  }
+                } else if (functionType == "checking" && actualIndexChange == kingData.destination) {
                   mass[actualIndex + actualIndexChange].dangerForKing = true;
                   // attackedCells.push(actualIndex + actualIndexChange);
                 } else {
@@ -293,7 +322,13 @@ export function whereCanGo(mass, figureType, index, functionType, kingData) {
               ) {
                 if (mass[actualIndex + actualIndexChange].type != "king") {
                   if (mass[actualIndex + actualIndexChange].side != figureColor) {
-                    mass[actualIndex + actualIndexChange].active = squareType;
+                    if (functionType == "afterShah") {
+                      if (mass[actualIndex + actualIndexChange].dangerForKing) {
+                        mass[actualIndex + actualIndexChange].active = squareType;
+                      }
+                    } else {
+                      mass[actualIndex + actualIndexChange].active = squareType;
+                    }
                   } else if (squareType == "attacked") {
                     mass[actualIndex + actualIndexChange].active = "attacked";
                   }
