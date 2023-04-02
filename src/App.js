@@ -8,6 +8,9 @@ function App() {
   const [firstPositionIndex, setFirstPositionIndex] = useState(-1);
   const [layoutWindowChange, setLayoutWindowChange] = useState("");
   const [actualSideMove, setActualSideMove] = useState("white");
+  window.logMass = () => {
+    console.log(poleSquares);
+  };
   let field = poleSquares.map((square, index) => {
     //Определение типа фигуры
     //Раскрашивание поля
@@ -85,10 +88,13 @@ function App() {
     function changeFigurePosition(index) {
       let newPoleSquares = poleSquares.slice();
       let kingAttacked = true;
-      newPoleSquares.forEach((sqr) => {
+      if (!newPoleSquares[index].canMove) {
+        return;
+      }
+      newPoleSquares.forEach((sqr, sqrIndex) => {
+        whereCanGo(newPoleSquares, newPoleSquares[sqrIndex].type, sqrIndex, "checkForKingSafe", 1);
         if (sqr.dangerForKing) {
           kingAttacked = "afterShah";
-          console.log(1);
         }
       });
       if (firstPositionIndex == -1 && (newPoleSquares[index].side == actualSideMove || adminMode)) {

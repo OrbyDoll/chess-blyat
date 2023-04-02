@@ -2,84 +2,82 @@ import { logDOM } from "@testing-library/react";
 
 //Массив всех фигур
 export let poleSquare = [
-  { type: "castle", side: "black", attacked: false, firstMove: true, active: false, dangerForKing: false },
-  { type: "horse", side: "black", attacked: false, active: false, dangerForKing: false },
-  { type: "bishop", side: "black", attacked: false, active: false, dangerForKing: false },
-  { type: "queen", side: "black", attacked: false, active: false, dangerForKing: false },
-  { type: "king", side: "black", attacked: false, firstMove: true, active: false, dangerForKing: false },
-  { type: "bishop", side: "black", attacked: false, active: false, dangerForKing: false },
-  { type: "horse", side: "black", attacked: false, active: false, dangerForKing: false },
-  { type: "castle", side: "black", attacked: false, firstMove: true, active: false, dangerForKing: false },
-  { type: "pawn", side: "black", attacked: false, firstMove: true, active: false, dangerForKing: false },
-  { type: "pawn", side: "black", attacked: false, firstMove: true, active: false, dangerForKing: false },
-  { type: "pawn", side: "black", attacked: false, firstMove: true, active: false, dangerForKing: false },
-  { type: "pawn", side: "black", attacked: false, firstMove: true, active: false, dangerForKing: false },
-  { type: "pawn", side: "black", attacked: false, firstMove: true, active: false, dangerForKing: false },
-  { type: "pawn", side: "black", attacked: false, firstMove: true, active: false, dangerForKing: false },
-  { type: "pawn", side: "black", attacked: false, firstMove: true, active: false, dangerForKing: false },
-  { type: "pawn", side: "black", attacked: false, firstMove: true, active: false, dangerForKing: false },
-  { type: "", side: "", attacked: false, active: false, dangerForKing: false },
-  { type: "", side: "", attacked: false, active: false, dangerForKing: false },
-  { type: "", side: "", attacked: false, active: false, dangerForKing: false },
-  { type: "", side: "", attacked: false, active: false, dangerForKing: false },
-  { type: "", side: "", attacked: false, active: false, dangerForKing: false },
-  { type: "", side: "", attacked: false, active: false, dangerForKing: false },
-  { type: "", side: "", attacked: false, active: false, dangerForKing: false },
-  { type: "", side: "", attacked: false, active: false, dangerForKing: false },
-  { type: "", side: "", attacked: false, active: false, dangerForKing: false },
-  { type: "", side: "", attacked: false, active: false, dangerForKing: false },
-  { type: "", side: "", attacked: false, active: false, dangerForKing: false },
-  { type: "", side: "", attacked: false, active: false, dangerForKing: false },
-  { type: "", side: "", attacked: false, active: false, dangerForKing: false },
-  { type: "", side: "", attacked: false, active: false, dangerForKing: false },
-  { type: "", side: "", attacked: false, active: false, dangerForKing: false },
-  { type: "", side: "", attacked: false, active: false, dangerForKing: false },
-  { type: "", side: "", attacked: false, active: false, dangerForKing: false },
-  { type: "", side: "", attacked: false, active: false, dangerForKing: false },
-  { type: "", side: "", attacked: false, active: false, dangerForKing: false },
-  { type: "", side: "", attacked: false, active: false, dangerForKing: false },
-  { type: "", side: "", attacked: false, active: false, dangerForKing: false },
-  { type: "", side: "", attacked: false, active: false, dangerForKing: false },
-  { type: "", side: "", attacked: false, active: false, dangerForKing: false },
-  { type: "", side: "", attacked: false, active: false, dangerForKing: false },
-  { type: "", side: "", attacked: false, active: false, dangerForKing: false },
-  { type: "", side: "", attacked: false, active: false, dangerForKing: false },
-  { type: "", side: "", attacked: false, active: false, dangerForKing: false },
-  { type: "", side: "", attacked: false, active: false, dangerForKing: false },
-  { type: "", side: "", attacked: false, active: false, dangerForKing: false },
-  { type: "", side: "", attacked: false, active: false, dangerForKing: false },
-  { type: "", side: "", attacked: false, active: false, dangerForKing: false },
-  { type: "", side: "", attacked: false, active: false, dangerForKing: false },
-  { type: "pawn", side: "white", attacked: false, firstMove: true, active: false, dangerForKing: false },
-  { type: "pawn", side: "white", attacked: false, firstMove: true, active: false, dangerForKing: false },
-  { type: "pawn", side: "white", attacked: false, firstMove: true, active: false, dangerForKing: false },
-  { type: "pawn", side: "white", attacked: false, firstMove: true, active: false, dangerForKing: false },
-  { type: "pawn", side: "white", attacked: false, firstMove: true, active: false, dangerForKing: false },
-  { type: "pawn", side: "white", attacked: false, firstMove: true, active: false, dangerForKing: false },
-  { type: "pawn", side: "white", attacked: false, firstMove: true, active: false, dangerForKing: false },
-  { type: "pawn", side: "white", attacked: false, firstMove: true, active: false, dangerForKing: false },
-  { type: "castle", side: "white", attacked: false, firstMove: true, active: false, dangerForKing: false },
-  { type: "horse", side: "white", attacked: false, active: false, dangerForKing: false },
-  { type: "bishop", side: "white", attacked: false, active: false, dangerForKing: false },
-  { type: "queen", side: "white", attacked: false, active: false, dangerForKing: false },
-  { type: "king", side: "white", attacked: false, firstMove: true, active: false, dangerForKing: false },
-  { type: "bishop", side: "white", attacked: false, active: false, dangerForKing: false },
-  { type: "horse", side: "white", attacked: false, active: false, dangerForKing: false },
-  { type: "castle", side: "white", attacked: false, firstMove: true, active: false, dangerForKing: false },
+  { type: "castle", side: "black", attacked: false, firstMove: true, active: false, dangerForKing: false, canMove: true },
+  { type: "horse", side: "black", attacked: false, active: false, dangerForKing: false, canMove: true },
+  { type: "bishop", side: "black", attacked: false, active: false, dangerForKing: false, canMove: true },
+  { type: "queen", side: "black", attacked: false, active: false, dangerForKing: false, canMove: true },
+  { type: "king", side: "black", attacked: false, firstMove: true, active: false, dangerForKing: false, canMove: true },
+  { type: "bishop", side: "black", attacked: false, active: false, dangerForKing: false, canMove: true },
+  { type: "horse", side: "black", attacked: false, active: false, dangerForKing: false, canMove: true },
+  { type: "castle", side: "black", attacked: false, firstMove: true, active: false, dangerForKing: false, canMove: true },
+  { type: "pawn", side: "black", attacked: false, firstMove: true, active: false, dangerForKing: false, canMove: true },
+  { type: "pawn", side: "black", attacked: false, firstMove: true, active: false, dangerForKing: false, canMove: true },
+  { type: "pawn", side: "black", attacked: false, firstMove: true, active: false, dangerForKing: false, canMove: true },
+  { type: "pawn", side: "black", attacked: false, firstMove: true, active: false, dangerForKing: false, canMove: true },
+  { type: "pawn", side: "black", attacked: false, firstMove: true, active: false, dangerForKing: false, canMove: true },
+  { type: "pawn", side: "black", attacked: false, firstMove: true, active: false, dangerForKing: false, canMove: true },
+  { type: "pawn", side: "black", attacked: false, firstMove: true, active: false, dangerForKing: false, canMove: true },
+  { type: "pawn", side: "black", attacked: false, firstMove: true, active: false, dangerForKing: false, canMove: true },
+  { type: "", side: "", attacked: false, active: false, dangerForKing: false, canMove: true },
+  { type: "", side: "", attacked: false, active: false, dangerForKing: false, canMove: true },
+  { type: "", side: "", attacked: false, active: false, dangerForKing: false, canMove: true },
+  { type: "", side: "", attacked: false, active: false, dangerForKing: false, canMove: true },
+  { type: "", side: "", attacked: false, active: false, dangerForKing: false, canMove: true },
+  { type: "", side: "", attacked: false, active: false, dangerForKing: false, canMove: true },
+  { type: "", side: "", attacked: false, active: false, dangerForKing: false, canMove: true },
+  { type: "", side: "", attacked: false, active: false, dangerForKing: false, canMove: true },
+  { type: "", side: "", attacked: false, active: false, dangerForKing: false, canMove: true },
+  { type: "", side: "", attacked: false, active: false, dangerForKing: false, canMove: true },
+  { type: "", side: "", attacked: false, active: false, dangerForKing: false, canMove: true },
+  { type: "", side: "", attacked: false, active: false, dangerForKing: false, canMove: true },
+  { type: "", side: "", attacked: false, active: false, dangerForKing: false, canMove: true },
+  { type: "", side: "", attacked: false, active: false, dangerForKing: false, canMove: true },
+  { type: "", side: "", attacked: false, active: false, dangerForKing: false, canMove: true },
+  { type: "", side: "", attacked: false, active: false, dangerForKing: false, canMove: true },
+  { type: "", side: "", attacked: false, active: false, dangerForKing: false, canMove: true },
+  { type: "", side: "", attacked: false, active: false, dangerForKing: false, canMove: true },
+  { type: "", side: "", attacked: false, active: false, dangerForKing: false, canMove: true },
+  { type: "", side: "", attacked: false, active: false, dangerForKing: false, canMove: true },
+  { type: "", side: "", attacked: false, active: false, dangerForKing: false, canMove: true },
+  { type: "", side: "", attacked: false, active: false, dangerForKing: false, canMove: true },
+  { type: "", side: "", attacked: false, active: false, dangerForKing: false, canMove: true },
+  { type: "", side: "", attacked: false, active: false, dangerForKing: false, canMove: true },
+  { type: "", side: "", attacked: false, active: false, dangerForKing: false, canMove: true },
+  { type: "", side: "", attacked: false, active: false, dangerForKing: false, canMove: true },
+  { type: "", side: "", attacked: false, active: false, dangerForKing: false, canMove: true },
+  { type: "", side: "", attacked: false, active: false, dangerForKing: false, canMove: true },
+  { type: "", side: "", attacked: false, active: false, dangerForKing: false, canMove: true },
+  { type: "", side: "", attacked: false, active: false, dangerForKing: false, canMove: true },
+  { type: "", side: "", attacked: false, active: false, dangerForKing: false, canMove: true },
+  { type: "", side: "", attacked: false, active: false, dangerForKing: false, canMove: true },
+  { type: "pawn", side: "white", attacked: false, firstMove: true, active: false, dangerForKing: false, canMove: true },
+  { type: "pawn", side: "white", attacked: false, firstMove: true, active: false, dangerForKing: false, canMove: true },
+  { type: "pawn", side: "white", attacked: false, firstMove: true, active: false, dangerForKing: false, canMove: true },
+  { type: "pawn", side: "white", attacked: false, firstMove: true, active: false, dangerForKing: false, canMove: true },
+  { type: "pawn", side: "white", attacked: false, firstMove: true, active: false, dangerForKing: false, canMove: true },
+  { type: "pawn", side: "white", attacked: false, firstMove: true, active: false, dangerForKing: false, canMove: true },
+  { type: "pawn", side: "white", attacked: false, firstMove: true, active: false, dangerForKing: false, canMove: true },
+  { type: "pawn", side: "white", attacked: false, firstMove: true, active: false, dangerForKing: false, canMove: true },
+  { type: "castle", side: "white", attacked: false, firstMove: true, active: false, dangerForKing: false, canMove: true },
+  { type: "horse", side: "white", attacked: false, active: false, dangerForKing: false, canMove: true },
+  { type: "bishop", side: "white", attacked: false, active: false, dangerForKing: false, canMove: true },
+  { type: "queen", side: "white", attacked: false, active: false, dangerForKing: false, canMove: true },
+  { type: "king", side: "white", attacked: false, firstMove: true, active: false, dangerForKing: false, canMove: true },
+  { type: "bishop", side: "white", attacked: false, active: false, dangerForKing: false, canMove: true },
+  { type: "horse", side: "white", attacked: false, active: false, dangerForKing: false, canMove: true },
+  { type: "castle", side: "white", attacked: false, firstMove: true, active: false, dangerForKing: false, canMove: true },
 ];
 export let adminMode = true;
 window.admin = () => {
   adminMode = !adminMode;
 };
-function shah(mass, attackerIndex, attackedData) {
-  whereCanGo(mass, mass[attackerIndex].type, attackerIndex, "checking", attackedData);
-}
 //Перемещение фигур
 export function whereCanGo(mass, figureType, index, functionType, kingData) {
   if (functionType == "checking") {
+    console.log("shah");
     mass[index].dangerForKing = true;
   }
-  const squareTypeBefore = functionType == "shah" || functionType == "checking" ? false : functionType;
+  const squareTypeBefore = functionType == "shah" || functionType == "checking" || functionType == "checkForKingSafe" ? false : functionType;
   const squareType = functionType == "afterShah" ? true : squareTypeBefore;
   switch (figureType) {
     case "pawn":
@@ -178,6 +176,7 @@ export function whereCanGo(mass, figureType, index, functionType, kingData) {
       for (let i = 0; i < c_cells.length; i++) {
         let actualIndex = c_cells[i][0];
         let actualIndexChange = c_cells[i][1];
+        let cantMoveCell = -1;
         let checkBehingKing_c = false;
         while (actualIndex >= 0 && actualIndex <= 64) {
           if (!checkBehingKing_c) {
@@ -199,7 +198,9 @@ export function whereCanGo(mass, figureType, index, functionType, kingData) {
                 } else if (functionType == "checking") {
                   break;
                 } else {
-                  if (mass[index].side != mass[actualIndex + actualIndexChange].side) {
+                  if (functionType == "checkForKingSafe") {
+                    checkBehingKing_c = true;
+                  } else if (mass[index].side != mass[actualIndex + actualIndexChange].side) {
                     if (mass[actualIndex + actualIndexChange].type != "king") {
                       if (functionType == "afterShah") {
                         if (mass[actualIndex + actualIndexChange].dangerForKing) {
@@ -230,7 +231,15 @@ export function whereCanGo(mass, figureType, index, functionType, kingData) {
           } else {
             if (!(actualIndex % 8 == 0 && actualIndexChange == -1) && !(actualIndex % 8 == 7 && actualIndexChange == 1)) {
               if (actualIndex + actualIndexChange <= 63 && actualIndex + actualIndexChange >= 0) {
-                if (mass[actualIndex + actualIndexChange].type == "") {
+                if (functionType == "checkForKingSafe") {
+                  if (mass[actualIndex + actualIndexChange].type == "king") {
+                    if (mass[actualIndex + actualIndexChange].side != mass[index].side && cantMoveCell != -1) {
+                      mass[cantMoveCell].canMove = false;
+                    }
+                  } else if (mass[actualIndex + actualIndexChange].type != "") {
+                    break;
+                  }
+                } else if (mass[actualIndex + actualIndexChange].type == "") {
                   mass[actualIndex + actualIndexChange].active = "attacked";
                 }
               }
