@@ -9,7 +9,9 @@ function App() {
   const [layoutWindowChange, setLayoutWindowChange] = useState("");
   const [actualSideMove, setActualSideMove] = useState("white");
   window.logMass = () => {
-    console.log(poleSquares);
+    poleSquares.forEach((item) => {
+      console.log(item.canMove);
+    });
   };
   let field = poleSquares.map((square, index) => {
     //Определение типа фигуры
@@ -92,7 +94,6 @@ function App() {
         return;
       }
       newPoleSquares.forEach((sqr, sqrIndex) => {
-        whereCanGo(newPoleSquares, newPoleSquares[sqrIndex].type, sqrIndex, "checkForKingSafe", 1);
         if (sqr.dangerForKing) {
           kingAttacked = "afterShah";
         }
@@ -147,6 +148,9 @@ function App() {
         }
         setFirstPositionIndex(-1);
         newPoleSquares.forEach((card, cardIndex) => {
+          if (firstPositionIndex != -1) {
+            whereCanGo(newPoleSquares, newPoleSquares[cardIndex].type, cardIndex, "checkForKingSafe", 1);
+          }
           card.active = false;
           // if (card.dangerForKing) {
           //   console.log(newPoleSquares, "sqr");
@@ -164,7 +168,7 @@ function App() {
       <div
         className={poleSquares[index].active == true ? poleColor + " active pole" : poleColor + " pole"}
         onClick={() => {
-          console.log(index);
+          // console.log(index);
           if (square.type != "" || square.active == true) {
             changeFigurePosition(index);
           }

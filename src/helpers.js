@@ -148,7 +148,6 @@ export function whereCanGo(mass, figureType, index, functionType, kingData) {
         }
       }
       //Съедание на ходу
-      //Не доделано
       for (let j = 0; j < pawnOnMoveCells.length; j++) {
         let OnMoveCellIndex = index + pawnOnMoveCells[j];
         if (OnMoveCellIndex <= 63 && OnMoveCellIndex >= 0) {
@@ -190,7 +189,6 @@ export function whereCanGo(mass, figureType, index, functionType, kingData) {
                   } else {
                     if (functionType == "checking" && actualIndexChange == kingData.destination) {
                       mass[actualIndex + actualIndexChange].dangerForKing = true;
-                      // attackedCells.push(actualIndex + actualIndexChange);
                     } else {
                       mass[actualIndex + actualIndexChange].active = squareType;
                     }
@@ -199,7 +197,11 @@ export function whereCanGo(mass, figureType, index, functionType, kingData) {
                   break;
                 } else {
                   if (functionType == "checkForKingSafe") {
-                    checkBehingKing_c = true;
+                    if (mass[actualIndex + actualIndexChange].type != "king") {
+                      // console.log(3, "cfks");
+                      cantMoveCell = actualIndex + actualIndexChange;
+                      checkBehingKing_c = true;
+                    }
                   } else if (mass[index].side != mass[actualIndex + actualIndexChange].side) {
                     if (mass[actualIndex + actualIndexChange].type != "king") {
                       if (functionType == "afterShah") {
@@ -233,7 +235,8 @@ export function whereCanGo(mass, figureType, index, functionType, kingData) {
               if (actualIndex + actualIndexChange <= 63 && actualIndex + actualIndexChange >= 0) {
                 if (functionType == "checkForKingSafe") {
                   if (mass[actualIndex + actualIndexChange].type == "king") {
-                    if (mass[actualIndex + actualIndexChange].side != mass[index].side && cantMoveCell != -1) {
+                    if (mass[actualIndex + actualIndexChange].side != mass[index].side && mass[index].side != mass[cantMoveCell].side && cantMoveCell != -1) {
+                      console.log(0);
                       mass[cantMoveCell].canMove = false;
                     }
                   } else if (mass[actualIndex + actualIndexChange].type != "") {
