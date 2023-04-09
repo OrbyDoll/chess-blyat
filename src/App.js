@@ -28,6 +28,7 @@ function App() {
       }
     }
     function renderChangeWindow(mass, index, firstIndex) {
+      
       let poleS = mass.slice();
       let squareColor = mass[firstIndex].side == "white" ? "rgb(240, 217, 181)" : "rgb(181,136,99)";
       return (
