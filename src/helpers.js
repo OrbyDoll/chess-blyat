@@ -407,17 +407,18 @@ export function whereCanGo(mass, figureType, index, functionType, kingData) {
       }
       const castlingCells = [3, -4];
       if (mass[index].firstMove) {
-        for (let i = 0; i < castlingCells.length; i++) {
+        main: for (let i = 0; i < castlingCells.length; i++) {
           const sign = Math.sign(castlingCells[i]);
           const castleCell = index + castlingCells[i];
           if (castleCell >= 0 && castleCell <= 63) {
             if (mass[castleCell].type == "castle" && mass[castleCell].firstMove) {
               for (let j = 1 * sign; j != castlingCells[i]; j = j + 1 * sign) {
-                if (mass[index + j].type != "" || mass[index + j].active == 'attacked') {
-                  return;
+                console.log(j, "j");
+                if (mass[index + j].type != "") {
+                  continue main;
                 }
               }
-              mass[castleCell - 1 * sign].active = true;
+              mass[castleCell - (castlingCells[i] == 3 ? 1 : 2) * sign].active = true;
             }
           }
         }

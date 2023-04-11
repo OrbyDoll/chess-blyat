@@ -8,6 +8,7 @@ function App() {
   const [firstPositionIndex, setFirstPositionIndex] = useState(-1);
   const [layoutWindowChange, setLayoutWindowChange] = useState("");
   const [actualSideMove, setActualSideMove] = useState("white");
+  const nullCell = { type: "", side: "", attacked: false, active: false, dangerForKing: false, canMove: true };
   window.logMass = () => {
     console.log(poleSquares);
     // poleSquares.forEach((item) => {
@@ -43,6 +44,8 @@ function App() {
               className="figureWindowOption"
               style={{ backgroundColor: squareColor }}
               onClick={() => {
+                poleS[index] = poleS[firstIndex];
+                poleS[firstPositionIndex] = nullCell;
                 poleS[index].type = "castle";
                 setLayoutWindowChange("");
                 setPoleSquares(poleS);
@@ -54,6 +57,8 @@ function App() {
               className="figureWindowOption"
               style={{ backgroundColor: squareColor }}
               onClick={() => {
+                poleS[index] = poleS[firstIndex];
+                poleS[firstPositionIndex] = nullCell;
                 poleS[index].type = "horse";
                 setLayoutWindowChange("");
                 setPoleSquares(poleS);
@@ -65,6 +70,8 @@ function App() {
               className="figureWindowOption"
               style={{ backgroundColor: squareColor }}
               onClick={() => {
+                poleS[index] = poleS[firstIndex];
+                poleS[firstPositionIndex] = nullCell;
                 poleS[index].type = "bishop";
                 setLayoutWindowChange("");
                 setPoleSquares(poleS);
@@ -76,6 +83,8 @@ function App() {
               className="figureWindowOption"
               style={{ backgroundColor: squareColor }}
               onClick={() => {
+                poleS[index] = poleS[firstIndex];
+                poleS[firstPositionIndex] = nullCell;
                 poleS[index].type = "queen";
                 setLayoutWindowChange("");
                 setPoleSquares(poleS);
@@ -108,35 +117,33 @@ function App() {
       if (firstPositionIndex != -1) {
         if (newPoleSquares[firstPositionIndex].side != newPoleSquares[index].side && newPoleSquares[index].active == true) {
           //Перемещение
+          if (
+            newPoleSquares[firstPositionIndex].type == "king" ||
+            newPoleSquares[firstPositionIndex].type == "castle" ||
+            newPoleSquares[firstPositionIndex].type == "pawn"
+          ) {
+            newPoleSquares[firstPositionIndex].firstMove = false;
+          }
           let changePoles = [
             [0, "white"],
             [7, "black"],
           ];
-          changePoles.forEach((squares) => {
-            if (
-              Math.floor(index / 8) == squares[0] &&
-              newPoleSquares[firstPositionIndex].side == squares[1] &&
-              newPoleSquares[firstPositionIndex].type == "pawn"
-            ) {
-              setLayoutWindowChange(renderChangeWindow(poleSquares, index, firstPositionIndex));
-            }
-          });
+
+          //Ракировка
           if (newPoleSquares[firstPositionIndex].type == "king" && Math.abs(index - firstPositionIndex) > 1 && kingAttacked != "afterShah") {
             const castleIndex = index + (index - firstPositionIndex > 0 ? 1 : -2);
             let newCastleIndex = 0;
             let newKingIndex = 0;
-            console.log(Math.abs(index - firstPositionIndex));
             if (index - firstPositionIndex > 0) {
               newKingIndex = firstPositionIndex + 2;
               newCastleIndex = index - 1;
             } else {
               newKingIndex = firstPositionIndex - 2;
-              newCastleIndex = index + 2;
+              newCastleIndex = index + 1;
             }
-            console.log(newCastleIndex);
-            newPoleSquares[newCastleIndex].type = newPoleSquares[castleIndex].type;
-            newPoleSquares[newCastleIndex].firstMove = false;
-            newPoleSquares[newCastleIndex].side = newPoleSquares[castleIndex].side;
+            newPoleSquares[newCastleIndex] = newPoleSquares[castleIndex];
+            newPoleSquares[castleIndex] = nullCell;
+            newPoleSquares[newKingIndex] = newPoleSquares[firstPositionIndex];
           } else {
             if (newPoleSquares[firstPositionIndex].type == "pawn") {
               if (newPoleSquares[firstPositionIndex].firstMove == true && Math.abs(index - firstPositionIndex) == 16) {
@@ -146,9 +153,7 @@ function App() {
               }
             }
 
-            newPoleSquares[index].type = newPoleSquares[firstPositionIndex].type;
-            newPoleSquares[index].firstMove = newPoleSquares[firstPositionIndex].firstMove;
-            newPoleSquares[index].side = newPoleSquares[firstPositionIndex].side;
+            newPoleSquares[index] = newPoleSquares[firstPositionIndex];
           }
           if (index - 8 >= 0) {
             if (newPoleSquares[index - 8].attacked && firstPositionIndex == newPoleSquares[index - 8].attacked) {
@@ -162,12 +167,21 @@ function App() {
               newPoleSquares[index + 8].side = "";
             }
           }
-          newPoleSquares[firstPositionIndex].type = "";
-          newPoleSquares[firstPositionIndex].side = "";
+          changePoles.forEach((squares) => {
+            if (
+              Math.floor(index / 8) == squares[0] &&
+              newPoleSquares[firstPositionIndex].side == squares[1] &&
+              newPoleSquares[firstPositionIndex].type == "pawn"
+            ) {
+              setLayoutWindowChange(renderChangeWindow(poleSquares, index, firstPositionIndex));
+            }
+          });
+          newPoleSquares[firstPositionIndex] = nullCell;
         }
+
         setFirstPositionIndex(-1);
         newPoleSquares.forEach((card, cardIndex) => {
-          if (firstPositionIndex != -1) {
+          if (firstPositionIndex != -1 && card.type != "king") {
             whereCanGo(newPoleSquares, newPoleSquares[cardIndex].type, cardIndex, "checkForKingSafe", 1);
           }
           card.active = false;
