@@ -9,9 +9,10 @@ function App() {
   const [layoutWindowChange, setLayoutWindowChange] = useState("");
   const [actualSideMove, setActualSideMove] = useState("white");
   window.logMass = () => {
-    poleSquares.forEach((item) => {
-      console.log(item.canMove);
-    });
+    console.log(poleSquares);
+    // poleSquares.forEach((item) => {
+    //   console.log(item.canMove);
+    // });
   };
   let field = poleSquares.map((square, index) => {
     //Определение типа фигуры
@@ -28,7 +29,6 @@ function App() {
       }
     }
     function renderChangeWindow(mass, index, firstIndex) {
-      
       let poleS = mass.slice();
       let squareColor = mass[firstIndex].side == "white" ? "rgb(240, 217, 181)" : "rgb(181,136,99)";
       return (
@@ -121,17 +121,35 @@ function App() {
               setLayoutWindowChange(renderChangeWindow(poleSquares, index, firstPositionIndex));
             }
           });
-          if (newPoleSquares[firstPositionIndex].type == "pawn") {
-            if (newPoleSquares[firstPositionIndex].firstMove == true && Math.abs(index - firstPositionIndex) == 16) {
-              newPoleSquares[firstPositionIndex].firstMove = "previous";
-            } else if (newPoleSquares[firstPositionIndex].firstMove == "previous" || Math.abs(index - firstPositionIndex) == 8) {
-              newPoleSquares[firstPositionIndex].firstMove = false;
+          if (newPoleSquares[firstPositionIndex].type == "king" && Math.abs(index - firstPositionIndex) > 1 && kingAttacked != "afterShah") {
+            const castleIndex = index + (index - firstPositionIndex > 0 ? 1 : -2);
+            let newCastleIndex = 0;
+            let newKingIndex = 0;
+            console.log(Math.abs(index - firstPositionIndex));
+            if (index - firstPositionIndex > 0) {
+              newKingIndex = firstPositionIndex + 2;
+              newCastleIndex = index - 1;
+            } else {
+              newKingIndex = firstPositionIndex - 2;
+              newCastleIndex = index + 2;
             }
-          }
+            console.log(newCastleIndex);
+            newPoleSquares[newCastleIndex].type = newPoleSquares[castleIndex].type;
+            newPoleSquares[newCastleIndex].firstMove = false;
+            newPoleSquares[newCastleIndex].side = newPoleSquares[castleIndex].side;
+          } else {
+            if (newPoleSquares[firstPositionIndex].type == "pawn") {
+              if (newPoleSquares[firstPositionIndex].firstMove == true && Math.abs(index - firstPositionIndex) == 16) {
+                newPoleSquares[firstPositionIndex].firstMove = "previous";
+              } else if (newPoleSquares[firstPositionIndex].firstMove == "previous" || Math.abs(index - firstPositionIndex) == 8) {
+                newPoleSquares[firstPositionIndex].firstMove = false;
+              }
+            }
 
-          newPoleSquares[index].type = newPoleSquares[firstPositionIndex].type;
-          newPoleSquares[index].firstMove = newPoleSquares[firstPositionIndex].firstMove;
-          newPoleSquares[index].side = newPoleSquares[firstPositionIndex].side;
+            newPoleSquares[index].type = newPoleSquares[firstPositionIndex].type;
+            newPoleSquares[index].firstMove = newPoleSquares[firstPositionIndex].firstMove;
+            newPoleSquares[index].side = newPoleSquares[firstPositionIndex].side;
+          }
           if (index - 8 >= 0) {
             if (newPoleSquares[index - 8].attacked && firstPositionIndex == newPoleSquares[index - 8].attacked) {
               newPoleSquares[index - 8].type = "";
