@@ -117,20 +117,18 @@ function App() {
       if (firstPositionIndex != -1) {
         if (newPoleSquares[firstPositionIndex].side != newPoleSquares[index].side && newPoleSquares[index].active == true) {
           //Перемещение
-          if (
-            newPoleSquares[firstPositionIndex].type == "king" ||
-            newPoleSquares[firstPositionIndex].type == "castle" ||
-            newPoleSquares[firstPositionIndex].type == "pawn"
-          ) {
-            newPoleSquares[firstPositionIndex].firstMove = false;
-          }
           let changePoles = [
             [0, "white"],
             [7, "black"],
           ];
 
           //Ракировка
-          if (newPoleSquares[firstPositionIndex].type == "king" && Math.abs(index - firstPositionIndex) > 1 && kingAttacked != "afterShah") {
+          if (
+            newPoleSquares[firstPositionIndex].type == "king" &&
+            Math.abs(index - firstPositionIndex) > 1 &&
+            Math.abs(index - firstPositionIndex) < 3 &&
+            newPoleSquares[firstPositionIndex].firstMove
+          ) {
             const castleIndex = index + (index - firstPositionIndex > 0 ? 1 : -2);
             let newCastleIndex = 0;
             let newKingIndex = 0;
@@ -142,6 +140,7 @@ function App() {
               newCastleIndex = index + 1;
             }
             newPoleSquares[newCastleIndex] = newPoleSquares[castleIndex];
+            newPoleSquares[newCastleIndex].firstMove = false;
             newPoleSquares[castleIndex] = nullCell;
             newPoleSquares[newKingIndex] = newPoleSquares[firstPositionIndex];
           } else {
@@ -176,6 +175,13 @@ function App() {
               setLayoutWindowChange(renderChangeWindow(poleSquares, index, firstPositionIndex));
             }
           });
+          if (
+            newPoleSquares[firstPositionIndex].type == "king" ||
+            newPoleSquares[firstPositionIndex].type == "castle" ||
+            newPoleSquares[firstPositionIndex].type == "pawn"
+          ) {
+            newPoleSquares[firstPositionIndex].firstMove = false;
+          }
           newPoleSquares[firstPositionIndex] = nullCell;
         }
 

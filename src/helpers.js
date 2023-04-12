@@ -395,25 +395,29 @@ export function whereCanGo(mass, figureType, index, functionType, kingData) {
         const actualIndex = k_cells[p][0];
         const actualRowIndex = k_cells[p][1];
         if (index + actualIndex >= 0 && index + actualIndex <= 63 && Math.floor(index / 8) + actualRowIndex == Math.floor((index + actualIndex) / 8)) {
-          let squareTypeCondition = squareType == "attacked" ? true : mass[index + actualIndex].active != "attacked";
-          if (squareTypeCondition) {
-            if (mass[index + actualIndex].type == "") {
-              mass[index + actualIndex].active = squareType;
-            } else if (mass[index + actualIndex].side != mass[index].side && mass[index + actualIndex].type != "king") {
-              mass[index + actualIndex].active = squareType;
+          if (functionType == true) {
+            if (mass[index + actualIndex].active != "attacked") {
+              if (mass[index + actualIndex].type == "") {
+                mass[index + actualIndex].active = squareType;
+                console.log(index + actualIndex, "1");
+              } else if (mass[index + actualIndex].side != mass[index].side && mass[index + actualIndex].type != "king") {
+                mass[index + actualIndex].active = squareType;
+                console.log(index + actualIndex, "2");
+              }
             }
+          } else {
+            mass[index + actualIndex].active = squareType;
           }
         }
       }
       const castlingCells = [3, -4];
-      if (mass[index].firstMove) {
+      if (mass[index].firstMove && functionType == true) {
         main: for (let i = 0; i < castlingCells.length; i++) {
           const sign = Math.sign(castlingCells[i]);
           const castleCell = index + castlingCells[i];
           if (castleCell >= 0 && castleCell <= 63) {
             if (mass[castleCell].type == "castle" && mass[castleCell].firstMove) {
               for (let j = 1 * sign; j != castlingCells[i]; j = j + 1 * sign) {
-                console.log(j, "j");
                 if (mass[index + j].type != "") {
                   continue main;
                 }
