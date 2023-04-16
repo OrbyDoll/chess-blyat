@@ -6,7 +6,7 @@ import { logDOM } from "@testing-library/react";
 function App() {
   const [poleSquares, setPoleSquares] = useState(poleSquare);
   const [firstPositionIndex, setFirstPositionIndex] = useState(-1);
-  const [layoutWindowChange, setLayoutWindowChange] = useState("");
+  const [WindowChange, setWindowChange] = useState("");
   const [actualSideMove, setActualSideMove] = useState("white");
   const nullCell = { type: "", side: "", attacked: false, active: false, dangerForKing: false, canMove: true };
   window.logMass = () => {
@@ -47,7 +47,7 @@ function App() {
                 poleS[index] = poleS[firstIndex];
                 poleS[firstPositionIndex] = nullCell;
                 poleS[index].type = "castle";
-                setLayoutWindowChange("");
+                setWindowChange("");
                 setPoleSquares(poleS);
               }}
             >
@@ -60,7 +60,7 @@ function App() {
                 poleS[index] = poleS[firstIndex];
                 poleS[firstPositionIndex] = nullCell;
                 poleS[index].type = "horse";
-                setLayoutWindowChange("");
+                setWindowChange("");
                 setPoleSquares(poleS);
               }}
             >
@@ -73,7 +73,7 @@ function App() {
                 poleS[index] = poleS[firstIndex];
                 poleS[firstPositionIndex] = nullCell;
                 poleS[index].type = "bishop";
-                setLayoutWindowChange("");
+                setWindowChange("");
                 setPoleSquares(poleS);
               }}
             >
@@ -86,7 +86,7 @@ function App() {
                 poleS[index] = poleS[firstIndex];
                 poleS[firstPositionIndex] = nullCell;
                 poleS[index].type = "queen";
-                setLayoutWindowChange("");
+                setWindowChange("");
                 setPoleSquares(poleS);
               }}
             >
@@ -117,10 +117,6 @@ function App() {
       if (firstPositionIndex != -1) {
         if (newPoleSquares[firstPositionIndex].side != newPoleSquares[index].side && newPoleSquares[index].active == true) {
           //Перемещение
-          let changePoles = [
-            [0, "white"],
-            [7, "black"],
-          ];
 
           //Ракировка
           if (
@@ -141,8 +137,8 @@ function App() {
             }
             newPoleSquares[newCastleIndex] = newPoleSquares[castleIndex];
             newPoleSquares[newCastleIndex].firstMove = false;
-            newPoleSquares[castleIndex] = nullCell;
             newPoleSquares[newKingIndex] = newPoleSquares[firstPositionIndex];
+            newPoleSquares[castleIndex] = nullCell;
           } else {
             if (newPoleSquares[firstPositionIndex].type == "pawn") {
               if (newPoleSquares[firstPositionIndex].firstMove == true && Math.abs(index - firstPositionIndex) == 16) {
@@ -154,6 +150,7 @@ function App() {
 
             newPoleSquares[index] = newPoleSquares[firstPositionIndex];
           }
+
           if (index - 8 >= 0) {
             if (newPoleSquares[index - 8].attacked && firstPositionIndex == newPoleSquares[index - 8].attacked) {
               newPoleSquares[index - 8].type = "";
@@ -166,13 +163,18 @@ function App() {
               newPoleSquares[index + 8].side = "";
             }
           }
+
+          let changePoles = [
+            [0, "white"],
+            [7, "black"],
+          ];
           changePoles.forEach((squares) => {
             if (
               Math.floor(index / 8) == squares[0] &&
               newPoleSquares[firstPositionIndex].side == squares[1] &&
               newPoleSquares[firstPositionIndex].type == "pawn"
             ) {
-              setLayoutWindowChange(renderChangeWindow(poleSquares, index, firstPositionIndex));
+              setWindowChange(renderChangeWindow(poleSquares, index, firstPositionIndex));
             }
           });
           if (
@@ -220,7 +222,7 @@ function App() {
   });
   return (
     <div className={"mainWrap"}>
-      {layoutWindowChange}
+      {WindowChange}
       {/* <div className="roomWrap">
         <input className="roomKeyInput" placeholder="Room Key"></input>
         <button className="roomKeySubmit">Submit</button>
